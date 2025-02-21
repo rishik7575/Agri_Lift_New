@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriLift - Agricultural Services</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .service-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(0);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover .service-icon {
+            transform: rotate(360deg);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-emerald-700 text-white sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold flex items-center">
+                <i class="fas fa-seedling mr-2"></i>AgriLift
+            </a>
+            <div class="hidden md:flex space-x-6">
+                <a href="welcome.html" class="hover:text-emerald-200 transition">Home</a>
+                <a href="seed.html" class="hover:text-emerald-200 transition">Seeds&Plants</a>
+                <a href="mounitoring.html" class="hover:text-emerald-200 transition">Farm mounitoring</a>
+                <a href="worker.html" class="hover:text-emerald-200 transition">Labour Management</a>
+                <a href="loan.html" class="hover:text-emerald-200 transition">Loans</a>
+                <a href="contact.html" hover:text-emerald-200 transition">Contact Us</a>
+                <a href="services.html" class="hover:text-emerald-200 transition">services</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="bg-emerald-50 py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-emerald-800 mb-6">
+                Comprehensive Agricultural Services
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                End-to-end solutions for modern farming needs, from seed to harvest and beyond
+            </p>
+        </div>
+    </div>
+
+    <!-- Services Tabs -->
+    <div class="container mx-auto px-4 py-12">
+        <div class="flex flex-wrap justify-center gap-4 mb-8">
+            <button class="tab-btn px-6 py-2 rounded-full bg-emerald-600 text-white" data-tab="farming">Farming
+                Essentials</button>
+            <button class="tab-btn px-6 py-2 rounded-full bg-gray-200 hover:bg-emerald-100" data-tab="advanced">Advanced
+                Solutions</button>
+            <button class="tab-btn px-6 py-2 rounded-full bg-gray-200 hover:bg-emerald-100"
+                data-tab="specialized">Specialized Services</button>
+        </div>
+
+        <!-- Farming Essentials -->
+        <div id="farming" class="tab-content tab-active">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Soil Testing Card -->
+                <div class="service-card bg-white rounded-xl p-6 shadow-md">
+                    <div class="service-icon text-emerald-600 text-4xl mb-4">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Soil Testing & Analysis</h3>
+                    <p class="text-gray-600 mb-4">
+                        Comprehensive soil health assessment with AI-powered recommendations
+                    </p>
+                    <ul class="text-sm text-gray-600 space-y-2 mb-4">
+                        <li><i class="fas fa-check text-emerald-600 mr-2"></i>Nutrient level analysis</li>
+                        <li><i class="fas fa-check text-emerald-600 mr-2"></i>Crop suitability report</li>
+                        <li><i class="fas fa-check text-emerald-600 mr-2"></i>Fertilizer recommendations</li>
+                    </ul>
+                    <button class="text-emerald-600 font-semibold hover:text-emerald-700"
+                        onclick="window.location.href='dashboard.html'">
+                        Get Started →
+                    </button>
+                </div>
+
+                <!-- Seed Services Card -->
+                <div class="service-card bg-white rounded-xl p-6 shadow-md">
+                    <div class="service-icon text-emerald-600 text-4xl mb-4">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Premium Seed Supply</h3>
+                    <p class="text-gray-600 mb-4">
+                        Certified seeds with guaranteed germination rates
+                    </p>
+                    <div class="flex items-center text-sm text-gray-600 mb-4">
+                        <span class="mr-4"><i class="fas fa-tag mr-1"></i>25+ Varieties</span>
+                        <span><i class="fas fa-certificate mr-1"></i>Quality Certified</span>
+                    </div>
+                    <a href="seed.html" class="text-emerald-600 font-semibold hover:text-emerald-700">
+                        Browse Seeds →
+                    </a>
+                </div>
+
+                <!-- Add more farming essential cards -->
+            </div>
+        </div>
+
+        <!-- Advanced Solutions -->
+        <div id="advanced" class="tab-content">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Smart Farming Card -->
+                <div class="service-card bg-white rounded-xl p-6 shadow-md">
+                    <div class="service-icon text-emerald-600 text-4xl mb-4">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Smart Farming Solutions</h3>
+                    <p class="text-gray-600 mb-4">
+                        IoT-enabled farming systems for precision agriculture
+                    </p>
+                    <div class="bg-emerald-50 p-4 rounded-lg mb-4">
+                        <p class="text-sm text-emerald-700">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            Real-time monitoring of soil moisture and crop health
+                        </p>
+                    </div>
+                    <button class="text-emerald-600 font-semibold hover:text-emerald-700"
+                        onclick="window.location.href='mounitoring.html'">
+                        Explore Tech →
+                    </button>
+                </div>
+
+                <!-- Add more advanced solution cards -->
+            </div>
+        </div>
+
+        <!-- Specialized Services -->
+        <div id="specialized" class="tab-content">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Export Assistance Card -->
+                <div class="service-card bg-white rounded-xl p-6 shadow-md">
+                    <div class="service-icon text-emerald-600 text-4xl mb-4">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Global Export Support</h3>
+                    <p class="text-gray-600 mb-4">
+                        End-to-end export documentation and logistics support
+                    </p>
+                    <div class="flex items-center text-sm text-gray-600">
+                        <span class="mr-4"><i class="fas fa-ship mr-1"></i>Sea Freight</span>
+                        <span><i class="fas fa-plane mr-1"></i>Air Cargo</span>
+                    </div>
+                </div>
+
+                <!-- Add more specialized service cards -->
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="bg-emerald-50 py-12">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-8">Frequently Asked Questions</h2>
+            <div class="space-y-4 max-w-3xl mx-auto">
+                <!-- FAQ Item -->
+                <div class="bg-white rounded-lg p-4 shadow-sm">
+                    <button class="faq-question w-full text-left font-semibold flex justify-between items-center">
+                        How do I request soil testing?
+                        <i class="fas fa-chevron-down ml-2"></i>
+                    </button>
+                    <div class="faq-answer mt-2 text-gray-600 hidden">
+                        Our soil testing service can be requested through our mobile app or website...
+                    </div>
+                </div>
+
+                <!-- Add more FAQ items -->
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="bg-emerald-700 text-white py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-4">Ready to Transform Your Farming?</h2>
+            <p class="text-lg mb-8">Join thousands of successful farmers using AgriLift services</p>
+            <button class="bg-white text-emerald-700 px-8 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition"
+                onclick="window.location.href='register.html'">
+                Get Started Today
+            </button>
+
+        </div>
+    </div>
+
+    <script>
+        // Tab Functionality
+        document.querySelectorAll('.tab-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons and content
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('bg-emerald-600', 'text-white'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('tab-active'));
+
+                // Add active class to clicked button and corresponding content
+                button.classList.add('bg-emerald-600', 'text-white');
+                document.getElementById(button.dataset.tab).classList.add('tab-active');
+            });
+        });
+
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('i');
+
+                answer.classList.toggle('hidden');
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
+            });
+        });
+    </script>
+</body>
+
+</html>

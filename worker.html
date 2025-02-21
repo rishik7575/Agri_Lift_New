@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriLift | Workforce Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FF7F50;
+            /* Coral Orange */
+            --secondary: #3A5F0B;
+            /* Agri Green */
+            --accent: #FFD700;
+            /* Gold */
+        }
+
+        .worker-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .skill-badge {
+            background: linear-gradient(135deg, var(--secondary), #2b5509);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-[var(--secondary)] text-white sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold flex items-center">
+                <i class="fas fa-tractor mr-2 animate-float"></i>AgriLift Workers
+            </a>
+            <div class="flex items-center space-x-6">
+                <a href="welcome.html" class="hover:text-[var(--primary)] transition">Home</a>
+                <a href="seed.html" class="hover:text-[var(--primary)] transition">Seeds</a>
+                <a href="machinary.html" class="hover:text-[var(--primary)] transition">Machinery</a>
+                <button class="bg-[var(--primary)] px-4 py-2 rounded-lg hover:bg-[#ff6b35]">
+                    Post Job <i class="fas fa-plus ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-r from-[var(--secondary)] to-[#4a7522] py-16 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl font-bold mb-4">Connect with Skilled Agri-Workers</h1>
+            <p class="text-lg mb-8">Daily wage workers | Machinery experts | Farm specialists</p>
+            <div class="max-w-2xl mx-auto bg-white rounded-full p-2 shadow-lg">
+                <div class="flex gap-2">
+                    <input type="text" placeholder="Search workers by skill..."
+                        class="flex-1 px-6 py-2 rounded-full border-0 text-gray-800 focus:ring-0">
+                    <button class="bg-[var(--primary)] text-white px-8 py-2 rounded-full hover:bg-[#ff6b35]">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Worker Categories -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex flex-wrap gap-3 mb-8 justify-center">
+            <button class="category-chip px-4 py-2 rounded-full bg-[var(--primary)] text-white" data-category="all">
+                All Workers
+            </button>
+            <button class="category-chip px-4 py-2 rounded-full bg-gray-200 hover:bg-[var(--primary)] hover:text-white"
+                data-category="machinery">
+                <i class="fas fa-tractor mr-2"></i>Machinery
+            </button>
+            <button class="category-chip px-4 py-2 rounded-full bg-gray-200 hover:bg-[var(--primary)] hover:text-white"
+                data-category="harvest">
+                <i class="fas fa-sickle mr-2"></i>Harvest
+            </button>
+            <button class="category-chip px-4 py-2 rounded-full bg-gray-200 hover:bg-[var(--primary)] hover:text-white"
+                data-category="irrigation">
+                <i class="fas fa-tint mr-2"></i>Irrigation
+            </button>
+        </div>
+
+        <!-- Worker Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="workerGrid">
+            <!-- Worker cards will be dynamically populated here -->
+        </div>
+    </div>
+
+    <!-- Job Post Modal -->
+    <div class="fixed inset-0 bg-black bg-opacity-50 hidden" id="jobModal">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-xl p-6 w-full max-w-md">
+                <h2 class="text-2xl font-bold mb-4 text-[var(--secondary)]">Post Job Requirement</h2>
+                <form class="space-y-4">
+                    <div>
+                        <label class="block mb-2 font-medium">Job Type</label>
+                        <select class="w-full p-2 border rounded-lg focus:ring-[var(--primary)]">
+                            <option>Machinery Operation</option>
+                            <option>Harvesting</option>
+                            <option>Irrigation Setup</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block mb-2 font-medium">Job Details</label>
+                        <textarea class="w-full p-2 border rounded-lg h-32"
+                            placeholder="Describe the work requirements..."></textarea>
+                    </div>
+                    <div>
+                        <label class="block mb-2 font-medium">Daily Wage Offered</label>
+                        <div class="flex items-center">
+                            <span class="bg-gray-100 p-2 rounded-l-lg">₹</span>
+                            <input type="number" class="flex-1 p-2 border rounded-r-lg"
+                                placeholder="Enter amount per day">
+                        </div>
+                    </div>
+                    <div class="flex justify-end gap-3 mt-6">
+                        <button type="button" class="px-4 py-2 text-gray-600 hover:text-[var(--secondary)]"
+                            onclick="document.getElementById('jobModal').classList.add('hidden')">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                            class="bg-[var(--primary)] text-white px-6 py-2 rounded-lg hover:bg-[#ff6b35]">
+                            Post Job
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let workers = [
+            { name: "Rajesh Kumar", category: "machinery", wage: 850, rating: 4.8, distance: 15, availability: true, imageUrl: "AgriLift/WORKERS/image.jpg" },
+            { name: "Anita Devi", category: "harvest", wage: 700, rating: 4.5, distance: 10, availability: true, imageUrl: "AgriLift/WORKERS/W1.JPG" },
+            { name: "Suresh Patel", category: "irrigation", wage: 900, rating: 4.7, distance: 20, availability: false, imageUrl: "AgriLift/WORKERS/M2.jpg" },
+            { name: "Lata Singh", category: "harvest", wage: 750, rating: 4.6, distance: 12, availability: true, imageUrl: "AgriLift/WORKERS/w2.jpg" },
+            { name: "Vikram Roy", category: "machinery", wage: 800, rating: 4.3, distance: 18, availability: true, imageUrl: "AgriLift/WORKERS/M3.jpg" },
+            { name: "Preeti Desai", category: "irrigation", wage: 875, rating: 4.9, distance: 25, availability: false, imageUrl: "AgriLift/WORKERS/w3.jpg" },
+            { name: "Amit Sharma", category: "harvest", wage: 720, rating: 4.1, distance: 8, availability: true, imageUrl: "AgriLift/WORKERS/M4.jpg" },
+            { name: "Naveen Gupta", category: "machinery", wage: 900, rating: 4.7, distance: 22, availability: true, imageUrl: "AgriLift/WORKERS/M5.jpg" },
+            { name: "Kalpana Reddy", category: "irrigation", wage: 850, rating: 4.4, distance: 16, availability: true, imageUrl: "AgriLift/WORKERS/W6.jpg" },
+            { name: "Sanjay Malik", category: "harvest", wage: 680, rating: 4.2, distance: 14, availability: false, imageUrl: "AgriLift/WORKERS/M6.jpg" },
+            { name: "Rekha Tiwari", category: "irrigation", wage: 780, rating: 4.6, distance: 17, availability: true, imageUrl: "AgriLift/WORKERS/w4.jpg" },
+            { name: "Ravi Kumar", category: "machinery", wage: 950, rating: 4.8, distance: 21, availability: true, imageUrl: "AgriLift/WORKERS/M8.jpg" },
+            { name: "Meena Jain", category: "harvest", wage: 710, rating: 4.4, distance: 9, availability: true, imageUrl: "AgriLift/WORKERS/W7.jpg" },
+            { name: "Deepak Yadav", category: "machinery", wage: 880, rating: 4.5, distance: 19, availability: false, imageUrl: "AgriLift/WORKERS/M7.jpg" },
+            { name: "Neha Shah", category: "irrigation", wage: 820, rating: 4.3, distance: 23, availability: true, imageUrl: "AgriLift/WORKERS/W5.jpg" },
+            // Add more workers with their respective image URLs
+        ];
+
+        function populateWorkers(category = 'all') {
+            const grid = document.getElementById('workerGrid');
+            grid.innerHTML = ''; // Clear existing content
+
+            workers.forEach(worker => {
+                if (category === 'all' || worker.category === category) {
+                    let card = document.createElement('div');
+                    card.className = "worker-card bg-white rounded-xl shadow-md p-4 transition-all duration-300";
+                    card.dataset.category = worker.category;
+
+                    card.innerHTML = `
+                        <div class="flex items-center gap-4 mb-4">
+                            <img src="${worker.imageUrl}" class="w-16 h-16 rounded-full object-cover border-2 border-[var(--primary)]">
+                            <div>
+                                <h3 class="font-bold text-lg">${worker.name}</h3>
+                                <p class="text-[var(--secondary)] text-sm">${worker.category.charAt(0).toUpperCase() + worker.category.slice(1)} Specialist</p>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <div class="bg-[var(--primary)] text-white px-3 py-1 rounded-full text-sm">₹${worker.wage}/day</div>
+                                <div class="flex items-center text-sm">
+                                    <i class="fas fa-star text-[var(--accent)] mr-1"></i>${worker.rating}
+                                    <span class="text-gray-500 ml-2">(128 jobs)</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between text-sm text-gray-600">
+                                <div>
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    ${worker.distance}km away
+                                </div>
+                                <span class="text-${worker.availability ? 'green' : 'red'}-600">
+                                    <i class="fas fa-circle"></i> ${worker.availability ? 'Available' : 'Not Available'}
+                                </span>
+                            </div>
+                        </div>
+                        <button class="w-full mt-4 bg-[var(--secondary)] text-white py-2 rounded-lg hover:bg-[#2b5509]">
+                            Hire Now <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    `;
+                    grid.appendChild(card);
+                }
+            });
+        }
+
+        // Event listeners for category filtering
+        document.querySelectorAll('.category-chip').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.category-chip').forEach(b => {
+                    b.classList.remove('bg-[var(--primary)]', 'text-white');
+                    b.classList.add('bg-gray-200', 'hover:bg-[var(--primary)]', 'hover:text-white');
+                });
+                button.classList.add('bg-[var(--primary)]', 'text-white');
+                button.classList.remove('bg-gray-200');
+                const category = button.dataset.category;
+                populateWorkers(category);
+            });
+        });
+
+        // Job Post Modal functionality
+        document.querySelector('nav button').addEventListener('click', () => {
+            document.getElementById('jobModal').classList.remove('hidden');
+        });
+
+        // Initial population of workers
+        populateWorkers();
+    </script>
+</body>
+
+</html>

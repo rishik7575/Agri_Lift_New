@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - AgriLift</title>
+    <style>
+        :root {
+            --primary-green: #77daa0;
+            --secondary-green: #27ae60;
+            --accent-blue: #3498db;
+            --background-light: #f4f7f6;
+            --text-dark: #2c3e50;
+            --card-background: #ffffff;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            color: white;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar .logo {
+            width: 150px;
+            height: auto;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Content */
+        #main-content {
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* Contact Form */
+        form {
+            background: var(--card-background);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 20px auto;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: var(--secondary-green);
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 0.9em;
+            display: none;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        /* Employee Section */
+        .employee-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .employee-card {
+            background: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding: 15px;
+            width: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .employee-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .employee-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        /* Animations for Dynamic Engagement */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        #main-content {
+            animation: fadeIn 1s ease-out;
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            .nav-links {
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="welcome.html"><img src="AgriLift/image__1_-removebg-preview.png" alt="AgriLift Logo" class="logo"></a>
+        <ul class="nav-links">
+            <li><a href="welcome.html">Home</a></li>
+
+            <li><a href="machinary.html">Machinery</a></li>
+            <li><a href="seed.html">Seeds</a></li>
+            <li><a href="worker.html">Labour Management</a></li>
+            <li><a href="export.html">Export</a></li>
+            <li><a href="loan.html">Loans</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <!-- Add more navigation links as needed -->
+        </ul>
+    </nav>
+
+    <div id="main-content">
+
+        <center>
+            <h1>Contact Us</h1>
+            <form id="dynamicForm" novalidate aria-label="Contact AgriLift">
+                <div class="form-group">
+                    <label for="type">Type of Query:</label>
+                    <select id="type" name="type" aria-required="true">
+                        <option value="">--Select--</option>
+                        <option value="product">Product Inquiry</option>
+                        <option value="service">Service Inquiry</option>
+                        <option value="general">General Inquiry</option>
+                    </select>
+                </div>
+
+                <div id="productDetails" class="form-group hide">
+                    <label for="productName">Product Name:</label>
+                    <input type="text" id="productName" name="productName" aria-required="true">
+                </div>
+
+                <div id="serviceDetails" class="form-group hide">
+                    <label for="serviceType">Service Type:</label>
+                    <input type="text" id="serviceType" name="serviceType" aria-required="true">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required aria-required="true"
+                        aria-describedby="emailError">
+                    <span id="emailError" class="error" role="alert">Please enter a valid email.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="country">Country:</label>
+                    <select id="country" name="country" aria-required="true">
+                        <option value="">--Select--</option>
+                        <option value="us">USA</option>
+                        <option value="ca">Canada</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="city">City:</label>
+                    <select id="city" name="city" aria-required="true">
+                        <option value="">--Select Country First--</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="4" required aria-required="true"></textarea>
+                </div>
+
+                <button type="submit" id="basicSubmit" aria-label="Submit form">Submit</button>
+                <button type="button" id="submitEnhanced" class="hide"
+                    aria-label="Submit form with enhanced validation">Submit Enhanced</button>
+            </form>
+
+            <section class="employee-section">
+                <h2 style="width: 100%; text-align: center;">Meet Our Best Employees</h2>
+                <div class="employee-card">
+                    <img src="AgriLift/WORKERS/M9.jpg" alt="Jane Doe">
+                    <h3>Bhanu Prakash</h3>
+                    <p>Agricultural Scientist</p>
+                </div>
+                <div class="employee-card">
+                    <img src="AgriLift/WORKERS/W7.jpg" alt="John Smith">
+                    <h3>Latha</h3>
+                    <p>Farm Operations Manager</p>
+                </div>
+                <!-- Add more employee cards as needed -->
+            </section>
+
+    </div>
+
+    <script>
+        document.documentElement.setAttribute('data-js', '');
+
+        // Function to show/hide fields based on type of query
+        function handleTypeChange() {
+            const type = document.getElementById('type').value;
+            document.getElementById('productDetails').classList.toggle('hide', type !== 'product');
+            document.getElementById('serviceDetails').classList.toggle('hide', type !== 'service');
+            // Adjust required attribute based on selection for better form validation
+            const productName = document.getElementById('productName');
+            const serviceType = document.getElementById('serviceType');
+            productName.required = type === 'product';
+            serviceType.required = type === 'service';
+        }
+
+        document.getElementById('type').addEventListener('change', handleTypeChange);
+
+        // Email validation
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        document.getElementById('email').addEventListener('input', function () {
+            const emailError = document.getElementById('emailError');
+            const isValid = validateEmail(this.value);
+            emailError.style.display = isValid ? 'none' : 'block';
+            this.setCustomValidity(isValid ? '' : 'Invalid email');
+        });
+
+        // Dynamic city options based on country
+        const cities = {
+            "us": ["New York", "Los Angeles", "Chicago"],
+            "ca": ["Toronto", "Vancouver", "Montreal"]
+        };
+
+        document.getElementById('country').addEventListener('change', function () {
+            const citySelect = document.getElementById('city');
+            citySelect.innerHTML = ''; // Clear existing options
+            citySelect.required = true; // Make city selection required once a country is chosen
+
+            if (this.value in cities) {
+                cities[this.value].forEach(city => {
+                    let option = document.createElement('option');
+                    option.value = city;
+                    option.text = city;
+                    citySelect.appendChild(option);
+                });
+            }
+        });
+
+        // Show enhanced submit button if JS is enabled
+        document.getElementById('submitEnhanced').classList.remove('hide');
+        document.getElementById('basicSubmit').classList.add('hide');
+
+        // Enhanced form submission logic
+        document.getElementById('submitEnhanced').addEventListener('click', function (e) {
+            const form = document.getElementById('dynamicForm');
+            if (form.checkValidity()) {
+                // Simulate AJAX form submission or actual submission
+                fetch('/submit-form', {
+                    method: 'POST',
+                    body: new FormData(form)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Form submitted successfully!');
+                            form.reset(); // Reset the form
+                        } else {
+                            alert('There was an error submitting your form. Please try again.');
+                        }
+                    });
+            } else {
+                // If the form doesn't pass HTML5 validation, show errors
+                form.reportValidity();
+            }
+        });
+
+        // Prevent default form submission for demonstration
+        document.getElementById('dynamicForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+        });
+    </script>
+
+</body>
+
+</html>

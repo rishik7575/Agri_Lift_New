@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriLift - Agricultural Financing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes slideIn {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .bank-card {
+            flex: 0 0 300px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .bank-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .country-flag {
+            width: 24px;
+            height: 16px;
+            margin-right: 8px;
+            border-radius: 2px;
+        }
+
+        #map {
+            height: 400px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .calculator-input {
+            transition: all 0.3s ease;
+            border: 2px solid #e5e7eb;
+        }
+
+        .calculator-input:focus {
+            border-color: #3d8a3f;
+            box-shadow: 0 0 0 3px rgba(61, 138, 63, 0.1);
+        }
+
+        .nav-link {
+            position: relative;
+            padding-bottom: 4px;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #3d8a3f;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #3d8a3f;
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <header class="bg-emerald-700 text-white shadow-lg">
+        <nav class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold flex items-center">
+                <i class="fas fa-seedling mr-2"></i>AgriLift
+            </a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="welcome.html" class="hover:text-emerald-200 transition">Home</a>
+                <a href="seed.html" class="hover:text-emerald-200 transition">Seeds&Plants</a>
+                <a href="mounitoring.html" class="hover:text-emerald-200 transition">Farm mounitoring</a>
+                <a href="worker.html" class="hover:text-emerald-200 transition">Labour Management</a>
+                <a href="loan.html" class="hover:text-emerald-200 transition">Loans</a>
+                <a href="contact.html" hover:text-emerald-200 transition">Contact Us</a>
+                <a href="services.html" class="hover:text-emerald-200 transition">services</a>
+                <button class="bg-emerald-600 px-4 py-2 rounded-lg hover:bg-emerald-500 transition">
+                    <i class="fas fa-user mr-2"></i>Farmer Portal
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- Interactive Map Section -->
+        <div class="mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Select Your Location</h2>
+            <div id="map" class="w-full"></div>
+        </div>
+
+        <!-- Country Selection -->
+        <div class="bg-white rounded-2xl shadow-lg p-6 mb-12">
+            <div class="max-w-2xl mx-auto">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Choose Your Country</h2>
+                <select id="countrySelect" class="w-full p-3 rounded-lg border border-gray-200 focus:outline-none">
+                    <option value="">Select your country...</option>
+                    <option value="india">
+                        🇮🇳 India
+                    </option>
+                    <option value="usa">
+                        🇺🇸 United States
+                    </option>
+                    <option value="brazil">
+                        🇧🇷 Brazil
+                    </option>
+                    <option value="nigeria">
+                        🇳🇬 Nigeria
+                    </option>
+                    <option value="australia">
+                        🇦🇺 Australia
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Bank Cards Section -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Available Banking Partners</h2>
+            <div id="bankCards" class="flex overflow-x-auto pb-4 gap-6 scroll-smooth">
+                <!-- Bank cards will be dynamically inserted here -->
+            </div>
+        </section>
+
+        <!-- Loan Calculator Section -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+            <div class="max-w-2xl mx-auto">
+                <h2 class="text-3xl font-bold text-gray-800 mb-8">Loan Calculator</h2>
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Loan Amount (₹)</label>
+                        <input type="number" id="loanAmount" class="w-full p-3 calculator-input rounded-lg">
+                        <div class="progress-bar mt-2">
+                            <div class="progress-fill" style="width: 60%"></div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-gray-700 mb-2">Loan Term (Years)</label>
+                            <input type="number" id="loanTerm" class="w-full p-3 calculator-input rounded-lg">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Interest Rate (%)</label>
+                            <input type="number" step="0.01" id="interestRate"
+                                class="w-full p-3 calculator-input rounded-lg">
+                        </div>
+                    </div>
+
+                    <button onclick="calculateLoan()"
+                        class="w-full bg-emerald-600 text-white py-3 rounded-lg hover:bg-emerald-700 transition">
+                        Calculate Payments
+                    </button>
+
+                    <div id="results" class="mt-6 space-y-3">
+                        <div class="bg-emerald-50 p-4 rounded-lg">
+                            <p id="monthlyPayment" class="text-emerald-700 font-medium"></p>
+                        </div>
+                        <div class="flex justify-between text-gray-700">
+                            <span>Total Interest:</span>
+                            <span id="totalInterest" class="font-medium"></span>
+                        </div>
+                        <div class="flex justify-between text-gray-700">
+                            <span>Total Payment:</span>
+                            <span id="totalPayment" class="font-medium"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="staffModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white rounded-lg p-6 w-96">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Select a Loan Staff</h3>
+            <ul id="staffList" class="space-y-3"></ul>
+            <button onclick="closeModal()" class="mt-4 w-full bg-red-500 text-white py-2 rounded-lg">Close</button>
+        </div>
+    </div>
+
+    <div id="thankYouModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white rounded-lg p-6 w-96">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Thank You!</h3>
+            <p class="text-gray-700">Our staff will contact you shortly.</p>
+            <button onclick="closeThankYouModal()"
+                class="mt-4 w-full bg-emerald-600 text-white py-2 rounded-lg">OK</button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Enhanced Country Data with Flags
+        const countryData = {
+            india: {
+                banks: [
+                    { name: "State Bank of India", interest: 4.2, type: "gov", logo: "sbi.png" },
+                    { name: "HDFC Bank", interest: 6.5, type: "private", logo: "hdfc.png" },
+                    { name: "NABARD", interest: 3.8, type: "gov", logo: "nabard.png" },
+                    { name: "ICICI Bank", interest: 6.7, type: "private", logo: "icici.png" }
+                ],
+                coordinates: [20.5937, 78.9629]
+            },
+            usa: {
+                banks: [
+                    { name: "USDA Farm Service", interest: 3.8, type: "gov", logo: "usda.png" },
+                    { name: "AgriBank USA", interest: 5.9, type: "private", logo: "agribank.png" },
+                    { name: "Farm Credit System", interest: 4.2, type: "gov", logo: "farmcredit.png" },
+                    { name: "Wells Fargo Agri", interest: 6.1, type: "private", logo: "wellsfargo.png" }
+                ],
+                coordinates: [37.0902, -95.7129]
+            },
+            brazil: {
+                banks: [
+                    { name: "Banco do Brasil", interest: 5.0, type: "gov", logo: "bancobrasil.png" },
+                    { name: "Santander Brasil", interest: 7.2, type: "private", logo: "santander.png" },
+                    { name: "Caixa Econômica", interest: 4.8, type: "gov", logo: "caixa.png" },
+                    { name: "Itaú Agribusiness", interest: 7.0, type: "private", logo: "itau.png" }
+                ],
+                coordinates: [-14.2350, -51.9253]
+            },
+            nigeria: {
+                banks: [
+                    { name: "Bank of Agriculture", interest: 6.0, type: "gov", logo: "boa.png" },
+                    { name: "Zenith AgriFin", interest: 8.0, type: "private", logo: "zenith.png" },
+                    { name: "FirstBank Nigeria", interest: 6.5, type: "gov", logo: "firstbank.png" },
+                    { name: "GTBank Agribiz", interest: 8.2, type: "private", logo: "gtbank.png" }
+                ],
+                coordinates: [9.0820, 8.6753]
+            },
+            australia: {
+                banks: [
+                    { name: "NAB Agri Banking", interest: 3.5, type: "gov", logo: "nab.png" },
+                    { name: "Commonwealth Agri", interest: 5.5, type: "private", logo: "commbank.png" },
+                    { name: "ANZ Agribusiness", interest: 3.7, type: "gov", logo: "anz.png" },
+                    { name: "Westpac Rural", interest: 5.8, type: "private", logo: "westpac.png" }
+                ],
+                coordinates: [-25.2744, 133.7751]
+            }
+        };
+
+        // Initialize Map
+        const map = L.map('map').setView([20, 0], 2);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        // Add Country Markers
+        Object.entries(countryData).forEach(([country, data]) => {
+            const marker = L.marker(data.coordinates).addTo(map)
+                .bindPopup(country.charAt(0).toUpperCase() + country.slice(1))
+                .on('click', () => {
+                    document.getElementById('countrySelect').value = country;
+                    updateBankCards(country);
+                });
+        });
+
+        // Bank Card Template
+        function createBankCard(bank) {
+            const card = document.createElement('div');
+            card.className = 'bank-card bg-white rounded-xl p-6';
+            card.innerHTML = `
+                <div class="flex items-center mb-4">
+                    <img src="AgriLift/loans/${bank.logo}" 
+                         class="w-12 h-12 object-contain mr-4"
+                         alt="${bank.name}">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">${bank.name}</h3>
+                        <span class="text-sm ${bank.type === 'gov' ? 'text-emerald-600' : 'text-amber-600'}">
+                            ${bank.type === 'gov' ? 'Government Partner' : 'Private Partner'}
+                        </span>
+                    </div>
+                </div>
+                <div class="space-y-3 mb-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Interest Rate</span>
+                        <span class="text-lg font-bold ${bank.type === 'gov' ? 'text-emerald-600' : 'text-amber-600'}">
+                            ${bank.interest}%
+                        </span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Max Tenure</span>
+                        <span class="text-gray-700 font-medium">${bank.type === 'gov' ? '7' : '10'} Years</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Special Feature</span>
+                        <span class="text-sm ${bank.type === 'gov' ? 'text-emerald-600' : 'text-amber-600'}">
+                            ${bank.type === 'gov' ? 'Subsidized' : 'Fast Approval'}
+                        </span>
+                    </div>
+                </div>
+                <button class="w-full bg-emerald-600 text-white py-2 rounded-lg hover:bg-emerald-700 transition">
+                    Apply Now
+                </button>
+            `;
+            return card;
+        }
+
+        // Update Bank Cards
+        function updateBankCards(country) {
+            const container = document.getElementById('bankCards');
+            container.innerHTML = '';
+            countryData[country].banks.forEach(bank => {
+                const card = createBankCard(bank);
+                container.appendChild(card);
+            });
+            container.style.opacity = '1';
+            container.scrollTo({ left: 0, behavior: 'smooth' });
+        }
+
+        // Loan Calculator
+        function calculateLoan() {
+            const amount = parseFloat(document.getElementById('loanAmount').value);
+            const term = parseFloat(document.getElementById('loanTerm').value);
+            const rate = parseFloat(document.getElementById('interestRate').value) / 100;
+
+            if (isNaN(amount) || isNaN(term) || isNaN(rate)) {
+                document.getElementById('results').innerHTML = `
+                    <div class="bg-red-50 p-4 rounded-lg text-red-700">
+                        Please enter valid numbers in all fields
+                    </div>
+                `;
+                return;
+            }
+
+            const monthlyRate = rate / 12;
+            const payments = term * 12;
+            const monthly = (amount * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -payments));
+            const totalInterest = (monthly * payments) - amount;
+            const totalPayment = amount + totalInterest;
+
+            document.getElementById('monthlyPayment').textContent =
+                `Monthly Payment: ₹${monthly.toFixed(2)}`;
+            document.getElementById('totalInterest').textContent =
+                `₹${totalInterest.toFixed(2)}`;
+            document.getElementById('totalPayment').textContent =
+                `₹${totalPayment.toFixed(2)}`;
+        }
+
+        // Event Listeners
+        document.getElementById('countrySelect').addEventListener('change', (e) => {
+            updateBankCards(e.target.value);
+        });
+
+        // Initialization
+        updateBankCards('india');
+        const loanStaff = [
+            { name: "John Doe", position: "Senior Loan Officer", contact: "+91 98765 43210" },
+            { name: "Jane Smith", position: "Loan Consultant", contact: "+91 99876 54321" },
+            { name: "Amit Sharma", position: "Agricultural Loan Specialist", contact: "+91 87654 32109" }
+        ];
+        function createBankCard(bank) {
+            const card = document.createElement('div');
+            card.className = 'bank-card bg-white rounded-xl p-6';
+            card.innerHTML = `
+        <div class="flex items-center mb-4">
+            <img src="AgriLift/Loans/${bank.logo}" class="w-12 h-12 object-contain mr-4" alt="${bank.name}">
+            <div>
+                <h3 class="text-xl font-bold text-gray-800">${bank.name}</h3>
+                <span class="text-sm ${bank.type === 'gov' ? 'text-emerald-600' : 'text-amber-600'}">
+                    ${bank.type === 'gov' ? 'Government Partner' : 'Private Partner'}
+                </span>
+            </div>
+        </div>
+        <div class="space-y-3 mb-4">
+            <div class="flex justify-between items-center">
+                <span class="text-gray-600">Interest Rate</span>
+                <span class="text-lg font-bold ${bank.type === 'gov' ? 'text-emerald-600' : 'text-amber-600'}">
+                    ${bank.interest}%
+                </span>
+            </div>
+        </div>
+        <button onclick="openStaffModal()" class="w-full bg-emerald-600 text-white py-2 rounded-lg hover:bg-emerald-700 transition">
+            Apply Now
+        </button>
+    `;
+            return card;
+        }
+        function openStaffModal() {
+            const staffList = document.getElementById('staffList');
+            staffList.innerHTML = '';
+
+            loanStaff.forEach(staff => {
+                const li = document.createElement('li');
+                li.className = 'p-3 bg-gray-100 rounded-lg flex justify-between items-center cursor-pointer hover:bg-gray-200';
+                li.innerHTML = `
+            <div>
+                <p class="text-lg font-bold">${staff.name}</p>
+                <p class="text-sm text-gray-600">${staff.position}</p>
+                <p class="text-sm text-gray-500">${staff.contact}</p>
+            </div>
+        `;
+                li.onclick = () => {
+                    closeModal();
+                    openThankYouModal();
+                };
+                staffList.appendChild(li);
+            });
+
+            document.getElementById('staffModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('staffModal').classList.add('hidden');
+        }
+
+        function openThankYouModal() {
+            document.getElementById('thankYouModal').classList.remove('hidden');
+        }
+
+        function closeThankYouModal() {
+            document.getElementById('thankYouModal').classList.add('hidden');
+        }
+
+    </script>
+</body>
+
+</html>

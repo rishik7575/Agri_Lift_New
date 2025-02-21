@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriLift | Sustainable Agriculture Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .product-card {
+            animation: fadeIn 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        .cart-sidebar {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            opacity: 0;
+        }
+
+        .cart-active .cart-sidebar {
+            transform: translateX(0);
+            opacity: 1;
+            z-index: 1000;
+        }
+
+        .category-filter {
+            scroll-behavior: smooth;
+        }
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -100px;
+            transition: bottom 0.3s ease-in-out;
+        }
+
+        .toast-active {
+            bottom: 20px;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: none;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Export Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+
+        .autocomplete-suggestions {
+            z-index: 1001;
+            /* Ensure it's above modal */
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .autocomplete-suggestions li {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-emerald-800 text-white sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold flex items-center">
+                <i class="fas fa-leaf mr-2"></i>AgriLift
+            </a>
+
+            <div class="hidden md:flex space-x-6">
+                <a href="welcome.html" class="hover:text-emerald-200 transition">Home</a>
+                <a href="dashboard.html" class="hover:text-emerald-200 transition">Dashboard</a>
+                <a href="machinary.html" class="hover:text-emerald-200 transition">Machinery</a>
+                <a href="seed.html" class="hover:text-emerald-200 transition">Seeds</a>
+                <a href="welcome.html" class="hover:text-emerald-200 transition">Labour Management</a>
+                <a href="loan.html" class="hover:text-emerald-200 transition">Loans</a>
+                <a href="contact.html" class="hover:text-emerald-200 transition">Contact</a>
+                <button id="cartBtn" class="relative hover:text-emerald-200" aria-label="Open Cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cartCount" class="absolute -top-2 -right-3 bg-red-500 text-xs px-2 rounded-full">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <nav class="bg-emerald-800 text-white sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+
+            <div class="flex-1 mx-4 relative">
+                <input id="searchInput" type="text" placeholder="Search products..."
+                    class="w-full px-3 py-2 rounded-full bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-emerald-300">
+                <div id="suggestions" class="absolute w-full bg-white mt-1 rounded-lg shadow-lg hidden">
+                    <ul class="py-1">
+                        <!-- Suggestions will be dynamically added here -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <!-- Category Filters -->
+        <div class="category-filter mb-8 flex overflow-x-auto pb-4 space-x-4">
+            <button class="filter-btn px-4 py-2 rounded-full bg-emerald-600 text-white whitespace-nowrap"
+                data-category="all">All Products</button>
+            <button class="filter-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-emerald-100 whitespace-nowrap"
+                data-category="grains">Grains</button>
+            <button class="filter-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-emerald-100 whitespace-nowrap"
+                data-category="fruits">Fruits</button>
+            <button class="filter-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-emerald-100 whitespace-nowrap"
+                data-category="vegetables">Vegetables</button>
+            <button class="filter-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-emerald-100 whitespace-nowrap"
+                data-category="spices">Spices</button>
+        </div>
+
+        <!-- Product Grid -->
+        <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Product Card: Rice (Grains) -->
+            <div class="product-card bg-white rounded-xl shadow-md overflow-hidden" data-category="grains">
+                <img src="AgriLift/export/rice.jpeg" alt="Rice" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="font-bold text-lg mb-2">Rice</h3>
+                    <p class="text-gray-600 text-sm mb-4">Rice is a staple grain used in many dishes.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-emerald-600 font-bold">$4.99</span>
+                        <button
+                            class="add-to-cart bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition">
+                            Add to Cart
+                            <div class="spinner hidden"></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Product Card: Apples (Fruits) -->
+            <div class="product-card bg-white rounded-xl shadow-md overflow-hidden" data-category="fruits">
+                <img src="AgriLift/export/apples.jpeg" alt="Apples" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="font-bold text-lg mb-2">Apples</h3>
+                    <p class="text-gray-600 text-sm mb-4">Apples are crisp and sweet, perfect for a healthy snack.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-emerald-600 font-bold">$19.99</span>
+                        <button
+                            class="add-to-cart bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition">
+                            Add to Cart
+                            <div class="spinner hidden"></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Card: Tomato (Vegetables) -->
+            <div class="product-card bg-white rounded-xl shadow-md overflow-hidden" data-category="vegetables">
+                <img src="AgriLift/export/tomato.jpeg" alt="Tomato" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="font-bold text-lg mb-2">Tomato</h3>
+                    <p class="text-gray-600 text-sm mb-4">Tomato is a versatile vegetable used in many recipes.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-emerald-600 font-bold">$6.99</span>
+                        <button
+                            class="add-to-cart bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition">
+                            Add to Cart
+                            <div class="spinner hidden"></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Card: Turmeric (Spices) -->
+            <div class="product-card bg-white rounded-xl shadow-md overflow-hidden" data-category="spices">
+                <img src="AgriLift/export/turmeric.jpeg" alt="Turmeric" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="font-bold text-lg mb-2">Turmeric</h3>
+                    <p class="text-gray-600 text-sm mb-4">Turmeric adds a warm, bitter flavor to many dishes.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-emerald-600 font-bold">$12.99</span>
+                        <button
+                            class="add-to-cart bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition">
+                            Add to Cart
+                            <div class="spinner hidden"></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar fixed top-0 right-0 h-full w-80 bg-white shadow-lg p-4">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold">Your Cart</h2>
+            <button id="closeCart" class="text-gray-500 hover:text-gray-700" aria-label="Close Cart">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div id="cartItems" class="space-y-4">
+            <!-- Cart items will be dynamically added here -->
+        </div>
+
+        <div class="mt-6 border-t pt-4">
+            <div class="flex justify-between font-bold">
+                <span>Total:</span>
+                <span id="cartTotal">$0.00</span>
+            </div>
+            <button id="exportBtn"
+                class="w-full bg-emerald-600 text-white py-2 rounded-lg mt-4 hover:bg-emerald-700 transition">
+                Export to...
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast bg-emerald-600 text-white px-6 py-3 rounded-full shadow-lg">
+        Item added to cart!
+    </div>
+
+    <!-- Export Modal -->
+    <div id="exportModal" class="modal">
+        <div class="modal-content relative">
+            <span id="closeModal" class="absolute top-2 right-2 cursor-pointer text-gray-500 text-lg">&times;</span>
+            <h2 class="text-lg font-bold mb-4 text-center">Export Details</h2>
+            <form id="exportForm">
+                <div class="mb-4">
+                    <label for="country" class="block text-sm font-medium text-gray-700 mb-1">Country</label>
+                    <input type="text" id="country" name="country" required
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-emerald-300 px-3 py-2 autocomplete-input">
+                    <div id="countrySuggestions"
+                        class="autocomplete-suggestions absolute w-full bg-white mt-1 rounded-lg shadow-lg hidden">
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label for="state" class="block text-sm font-medium text-gray-700 mb-1">State</label>
+                    <input type="text" id="state" name="state" required
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-emerald-300 px-3 py-2 autocomplete-input">
+                    <div id="stateSuggestions"
+                        class="autocomplete-suggestions absolute w-full bg-white mt-1 rounded-lg shadow-lg hidden">
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label for="pincode" class="block text-sm font-medium text-gray-700 mb-1">Pincode</label>
+                    <input type="text" id="pincode" name="pincode" required
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-emerald-300 px-3 py-2 autocomplete-input">
+                    <div id="pincodeSuggestions"
+                        class="autocomplete-suggestions absolute w-full bg-white mt-1 rounded-lg shadow-lg hidden">
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label for="latitude" class="block text-sm font-medium text-gray-700 mb-1">Latitude</label>
+                    <input type="text" id="latitude" name="latitude" required
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-emerald-300 px-3 py-2">
+                </div>
+                <div class="mb-4">
+                    <label for="longitude" class="block text-sm font-medium text-gray-700 mb-1">Longitude</label>
+                    <input type="text" id="longitude" name="longitude" required
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-emerald-300 px-3 py-2">
+                </div>
+                <button type="submit"
+                    class="w-full bg-emerald-600 text-white py-2 rounded-lg hover:bg-emerald-700 transition">
+                    Submit
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Cart Functionality
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function updateCart() {
+            const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = cartCount;
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartDisplay();
+        }
+
+        function addItemToCart(productName, price, button) {
+            const product = cart.find(item => item.name === productName);
+
+            if (product) {
+                product.quantity += 1;
+            } else {
+                cart.push({
+                    name: productName,
+                    price: price,
+                    quantity: 1
+                });
+            }
+            updateCart();
+            showToast();
+            showLoadingSpinner(button);
+        }
+
+        function showLoadingSpinner(button) {
+            const spinner = button.querySelector('.spinner');
+            spinner.classList.remove('hidden');
+            setTimeout(() => {
+                spinner.classList.add('hidden');
+            }, 1000); // Hide spinner after 1 second
+        }
+
+        // Cart Display
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            cartItems.innerHTML = '';
+
+            let total = 0;
+            cart.forEach((item, index) => {
+                total += item.price * item.quantity;
+                cartItems.innerHTML += `
+                    <div class="cart-item flex justify-between items-center mb-2">
+                        <div>
+                            <h4 class="font-semibold">${item.name}</h4>
+                            <p class="text-sm">$${item.price.toFixed(2)} x ${item.quantity}</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="change-quantity px-2 rounded bg-gray-100" data-index="${index}" data-change="-1">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="change-quantity px-2 rounded bg-gray-100" data-index="${index}" data-change="1">+</button>
+                            <button class="remove-item px-2 rounded bg-red-100 text-red-600" data-index="${index}">Remove</button>
+                        </div>
+                    </div>`;
+            });
+
+            document.getElementById('cartTotal').textContent = `$${total.toFixed(2)}`;
+        }
+
+        // Event delegation for cart interactions
+        document.addEventListener('click', function (event) {
+            if (event.target.matches('.add-to-cart')) {
+                const productCard = event.target.closest('.product-card');
+                const productName = productCard.querySelector('h3').textContent;
+                const price = parseFloat(productCard.querySelector('span').textContent.slice(1));
+                addItemToCart(productName, price, event.target);
+            }
+
+            if (event.target.matches('.change-quantity')) {
+                const index = parseInt(event.target.getAttribute('data-index'));
+                const change = parseInt(event.target.getAttribute('data-change'));
+
+                if (cart[index]) {
+                    if (change === -1 && cart[index].quantity > 1) {
+                        cart[index].quantity -= 1;
+                    } else if (change === 1) {
+                        cart[index].quantity += 1;
+                    }
+                    updateCart();
+                }
+            }
+
+            if (event.target.matches('.remove-item')) {
+                const index = parseInt(event.target.getAttribute('data-index'));
+                if (cart[index]) {
+                    cart.splice(index, 1);
+                    updateCart();
+                }
+            }
+        });
+
+        // Cart Interactions
+        document.getElementById('cartBtn').addEventListener('click', () => {
+            document.body.classList.add('cart-active');
+        });
+
+        document.getElementById('closeCart').addEventListener('click', () => {
+            document.body.classList.remove('cart-active');
+        });
+
+        // Toast Notification
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('toast-active');
+            setTimeout(() => toast.classList.remove('toast-active'), 2000);
+        }
+
+        // Filter Functionality
+        function filterProducts(category) {
+            const allProducts = document.querySelectorAll('.product-card');
+            allProducts.forEach(product => {
+                if (category === 'all' || product.getAttribute('data-category') === category) {
+                    product.style.display = 'block';
+                    setTimeout(() => product.classList.add('product-card'), 50);
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        }
+
+        document.addEventListener('click', function (event) {
+            if (event.target.matches('.filter-btn')) {
+                const category = event.target.getAttribute('data-category');
+                filterProducts(category);
+                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('bg-emerald-600', 'text-white'));
+                event.target.classList.add('bg-emerald-600', 'text-white');
+            }
+        });
+
+        // Initialize Cart on Load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCart();
+            filterProducts('all');
+        });
+
+        // Search and Suggestions Functionality
+        const suggestionsContainer = document.getElementById('suggestions');
+        const suggestionList = suggestionsContainer.querySelector('ul');
+        const searchInput = document.getElementById('searchInput');
+        const allProducts = document.querySelectorAll('.product-card');
+
+        function generateSuggestions(searchTerm) {
+            let suggestions = [];
+            const history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+            suggestions = suggestions.concat(history.filter(term => term.toLowerCase().includes(searchTerm.toLowerCase())));
+            const products = ['Rice', 'Apples', 'Tomato', 'Turmeric'];
+            suggestions = suggestions.concat(products.filter(product => product.toLowerCase().includes(searchTerm.toLowerCase())));
+            return suggestions.slice(0, 5);
+        }
+
+        function updateSuggestions(searchTerm) {
+            const suggestions = generateSuggestions(searchTerm);
+            if (suggestions.length > 0) {
+                suggestionsContainer.classList.remove('hidden');
+                suggestionList.innerHTML = suggestions.map(term => `<li class="px-4 py-2 cursor-pointer hover:bg-emerald-100">${term}</li>`).join('');
+            } else {
+                suggestionsContainer.classList.add('hidden');
+            }
+        }
+
+        function performSearch() {
+            const searchTerm = searchInput.value.toLowerCase();
+            updateSuggestions(searchTerm);
+            allProducts.forEach(product => {
+                const productName = product.querySelector('h3').textContent.toLowerCase();
+                if (productName.includes(searchTerm)) {
+                    product.style.display = 'block';
+                    setTimeout(() => product.classList.add('product-card'), 50);
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        }
+
+        suggestionList.addEventListener('click', function (e) {
+            if (e.target.tagName === 'LI') {
+                searchInput.value = e.target.textContent;
+                performSearch();
+                suggestionsContainer.classList.add('hidden');
+            }
+        });
+
+        searchInput.addEventListener('input', performSearch);
+
+        document.addEventListener('click', function (e) {
+            if (!searchInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+                suggestionsContainer.classList.add('hidden');
+            }
+        });
+
+        // Export Functionality
+        document.getElementById('exportBtn').addEventListener('click', () => {
+            document.getElementById('exportModal').style.display = 'block';
+        });
+
+        document.getElementById('closeModal').addEventListener('click', () => {
+            document.getElementById('exportModal').style.display = 'none';
+        });
+
+        document.getElementById('exportForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const country = document.getElementById('country').value;
+            const state = document.getElementById('state').value;
+            const pincode = document.getElementById('pincode').value;
+            const latitude = document.getElementById('latitude').value;
+            const longitude = document.getElementById('longitude').value;
+
+            const acknowledgment = `
+                Acknowledgment Letter
+                -----------------------
+                Order Confirmation
+                -----------------------
+                Country: ${country}
+                State: ${state}
+                Pincode: ${pincode}
+                Latitude: ${latitude}
+                Longitude: ${longitude}
+                -----------------------
+                Thank you for your order with AgriLift!
+            `;
+
+            const blob = new Blob([acknowledgment], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'acknowledgment.txt';
+            link.click();
+
+            document.getElementById('exportModal').style.display = 'none';
+            this.reset();
+        });
+        // Add this utility function for autocomplete
+        function setupAutocomplete(inputId, suggestions) {
+            const input = document.getElementById(inputId);
+            const suggestionsContainer = document.createElement('div');
+            suggestionsContainer.className = 'autocomplete-suggestions absolute w-full bg-white mt-1 rounded-lg shadow-lg hidden';
+            const suggestionsList = document.createElement('ul');
+            suggestionsContainer.appendChild(suggestionsList);
+            input.parentNode.appendChild(suggestionsContainer);
+
+            input.addEventListener('input', function () {
+                const inputText = this.value.toLowerCase();
+                const matchingSuggestions = suggestions.filter(suggestion =>
+                    suggestion.toLowerCase().startsWith(inputText)
+                ).slice(0, 5);
+
+                if (matchingSuggestions.length > 0) {
+                    suggestionsList.innerHTML = matchingSuggestions.map(suggestion =>
+                        `<li class="px-4 py-2 cursor-pointer hover:bg-emerald-100">${suggestion}</li>`
+                    ).join('');
+                    suggestionsContainer.classList.remove('hidden');
+                } else {
+                    suggestionsContainer.classList.add('hidden');
+                }
+            });
+
+            suggestionsContainer.addEventListener('click', function (e) {
+                if (e.target.tagName === 'LI') {
+                    input.value = e.target.textContent;
+                    suggestionsContainer.classList.add('hidden');
+                }
+            });
+
+            // Hide suggestions when clicking outside
+            document.addEventListener('click', function (e) {
+                if (!input.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+                    suggestionsContainer.classList.add('hidden');
+                }
+            });
+        }
+
+        // When the DOM loads, set up autocomplete for each field
+        document.addEventListener('DOMContentLoaded', () => {
+            setupAutocomplete('country', ['India', 'United States', 'Canada', 'Australia', 'United Kingdom']);
+            setupAutocomplete('state', ['California', 'New York', 'Texas', 'Florida', 'Illinois']);
+            setupAutocomplete('pincode', ['12345', '67890', '54321']); // Example pin codes, you should expand this list
+            // Latitude and Longitude might not benefit from autocomplete as much, but you can add common coordinates if needed
+        });
+    </script>
+    <footer class="bg-emerald-800 text-white py-4">
+        <div class="container mx-auto text-center">
+            <p>© 2023 AgriLift. All rights reserved.</p>
+            <a href="#contact" class="text-emerald-200 hover:underline">Contact Us</a>
+        </div>
+    </footer>
+</body>
+
+</html>

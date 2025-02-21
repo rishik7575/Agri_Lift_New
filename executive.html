@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Login</title>
+    <link rel="stylesheet" href="css/executive.css">
+    <script defer src="scripts/executive.js"></script>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">AgriLift</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="executiveregister.html">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Login Form -->
+    <main class="form-container fade-in">
+        <h1>Executive Login</h1>
+        <form id="executive-login-form">
+            <div class="form-group">
+                <label for="exec-email">Email Address</label>
+                <input type="email" id="exec-email" name="exec-email" placeholder="Enter your email" required>
+                <small class="error-msg">Please enter a valid email address</small>
+            </div>
+
+            <div class="form-group">
+                <label for="exec-password">Password</label>
+                <input type="password" id="exec-password" name="exec-password" placeholder="Enter your password"
+                    required>
+                <small class="error-msg">Password must be at least 6 characters</small>
+            </div>
+
+            <div class="form-group">
+                <label for="exec-designation">Designation</label>
+                <input type="text" id="exec-designation" name="exec-designation" placeholder="Enter your designation"
+                    required>
+                <small class="error-msg">Please provide your designation</small>
+            </div>
+
+            <div class="form-group">
+                <label for="exec-organization">Organization Name</label>
+                <input type="text" id="exec-organization" name="exec-organization"
+                    placeholder="Enter your organization name" required>
+                <small class="error-msg">Please provide your organization name</small>
+            </div>
+
+            <button type="submit" class="btn btn-3d">Login</button>
+        </form>
+
+        <!-- Link to Farmer Login -->
+        <p class="form-link">
+            Are you a farmer? <a href="login.html">Login here</a>.
+        </p>
+    </main>
+
+    <footer>
+        <p>© 2024 AgriLift. Empowering agriculture through technology.</p>
+    </footer>
+</body>
+
+</html>
