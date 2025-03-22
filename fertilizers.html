@@ -889,7 +889,7 @@
                         <p class="text-gray-500">Your cart is empty</p>
                     </div>
                 `;
-                document.getElementById('cartTotal').textContent = '$0.00';
+                document.getElementById('cartTotal').textContent = '₹0.00';
                 return;
             }
 
@@ -900,7 +900,7 @@
                     <div class="cart-item flex justify-between items-start space-x-3 bg-gray-50 p-3 rounded-lg">
                         <div class="flex-1">
                             <h4 class="font-semibold">${item.name}</h4>
-                            <p class="text-sm text-gray-600">$${item.price.toFixed(2)} × ${item.quantity}</p>
+                            <p class="text-sm text-gray-600">{item.price.toFixed(2)} × ${item.quantity}</p>
                         </div>
                         <div class="flex items-center space-x-2">
                             <button class="change-quantity w-7 h-7 flex items-center justify-center rounded bg-gray-200 hover:bg-gray-300" data-index="${index}" data-change="-1">

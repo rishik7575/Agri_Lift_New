@@ -4,17 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgriLand - Comprehensive Agricultural Solutions</title>
+    <title>AgriLift - Agricultural Financing</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-green: #77daa0;
+            --primary-green: #2ecc71;
+            --primary-green-dark: #219a56;
+            --primary-green-light: #4ad485;
             --secondary-green: #27ae60;
             --accent-blue: #3498db;
-            --background-light: #f4f7f6;
+            --accent-blue-dark: #2980b9;
+            --accent-blue-light: #5dade2;
+            --accent-yellow: #f1c40f;
+            --background-light: #f9fcfa;
             --text-dark: #2c3e50;
             --card-background: #ffffff;
+            --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            --input-border: #dcdfe6;
+            --input-focus: #3498db;
+            --transition-speed: 0.3s;
+            --error-color: #e74c3c;
         }
 
         * {
@@ -23,104 +34,233 @@
             box-sizing: border-box;
         }
 
-        @keyframes float {
-            0% {
-                transform: translateY(0px);
-            }
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: url('data:image/svg+xml;charset=utf8,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z" fill="%232ecc71" fill-opacity="0.05" fill-rule="evenodd"/%3E%3C/svg%3E');
+            overflow-x: hidden;
+        }
 
-            50% {
-                transform: translateY(-15px);
-            }
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
 
-            100% {
-                transform: translateY(0px);
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary-green);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-green);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
             }
         }
 
         @keyframes pulse {
             0% {
-                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.4);
             }
-
-            50% {
-                transform: scale(1.05);
+            70% {
+                box-shadow: 0 0 0 10px rgba(46, 204, 113, 0);
             }
-
             100% {
-                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
             }
         }
 
-        body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            background-color: var(--background-light);
-            color: var(--text-dark);
-            overflow-x: hidden;
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
         }
 
-        /* Navigation */
-        .navbar {
+        /* Header & Navigation Styling */
+        header {
+            background: linear-gradient(45deg, #77daa0, var(--secondary-green));
+            padding: 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            height: 100px;
+            transition: all 0.4s ease;
+        }
+
+        header.scrolled {
+            padding: 8px 0;
+            background: rgba(46, 204, 113, 0.95);
+            backdrop-filter: blur(10px);
+            height: 80px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0px 5px 0px 5px;
-            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
-            color: white;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            animation: fadeInDown 1s;
+            height: 100%;
         }
 
-        .navbar .logo img {
-            width: 165px;
-            /* Adjust width as needed */
-            height: auto;
-            /* Maintain aspect ratio */
-            margin-right: 20px;
-            /* Space between the image and text */
-            border-radius: 1px;
-            /* Optional: Rounded corners */
-            line-height: 0px;
-        }
-
-        .navbar .logo i {
-            margin-right: 10px;
-        }
-
-        .nav-links {
+        .logo {
             display: flex;
-            list-style: none;
-            font-size: larger;
+            align-items: center;
         }
 
-        .nav-links li {
-            margin-left: 20px;
+        .logo img {
+            width: 165px;
+            height: auto;
+            margin-right: 20px;
+            border-radius: 1px;
+            transition: transform 0.3s ease;
         }
 
-        .nav-links a {
+        .logo:hover img {
+            transform: scale(1.05);
+        }
+
+        nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-button {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
             color: white;
-            text-decoration: none;
-            transition: color 0.3s ease;
-            position: relative;
+            padding: 8px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -5px;
-            left: 0;
-            background-color: #f1c40f;
-            transition: width 0.3s;
+        .nav-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .nav-links a:hover::after {
+        .nav-button i {
+            font-size: 0.9rem;
+        }
+
+        /* Weather Card */
+        .weather-card {
+            position: fixed;
+            top: 130px;
+            right: 20px;
+            background: var(--card-background);
+            padding: 10px 15px;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            z-index: 999;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.5s ease-out;
+            transition: all 0.3s ease;
+        }
+
+        .weather-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .weather-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.95rem;
+        }
+
+        .weather-temp {
+            font-weight: 700;
+            color: var(--primary-green);
+            font-size: 1.2rem;
+        }
+
+        /* Translator Card */
+        .translator-card {
+            position: fixed;
+            top: 200px;
+            right: 20px;
+            background: var(--card-background);
+            padding: 10px 15px;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            z-index: 998;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.5s ease-out;
+            transition: all 0.3s ease;
+        }
+
+        .translator-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .translator-title {
+            font-weight: 600;
+            color: var(--primary-green);
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .translator-select {
             width: 100%;
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            background-color: white;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .translator-select:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.2);
         }
 
         /* Hero Section */
@@ -128,6 +268,8 @@
             position: relative;
             height: 100vh;
             overflow: hidden;
+            margin-top: 0;
+            padding-top: 100px;
         }
 
         .hero-slide {
@@ -137,7 +279,7 @@
             width: 100%;
             height: 100%;
             opacity: 0;
-            transition: opacity 1s ease-in-out;
+            transition: opacity 1.5s ease-in-out;
             background-size: cover;
             background-position: center;
             display: flex;
@@ -149,28 +291,52 @@
             padding: 0 5%;
         }
 
+        .hero-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6));
+        }
+
         .hero-slide.active {
             opacity: 1;
         }
 
         .hero-content {
-            max-width: 700px;
-            max-height: 500px;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 30px;
-            border-radius: 15px;
-            animation: zoomIn 1s;
+            position: relative;
+            max-width: 800px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            transform: translateY(50px);
+            opacity: 0;
+            transition: all 1s ease;
+        }
+
+        .hero-slide.active .hero-content {
+            transform: translateY(0);
+            opacity: 1;
         }
 
         .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
         .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
+            font-size: 1.25rem;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+            line-height: 1.8;
         }
 
         .cta-buttons {
@@ -179,420 +345,1166 @@
             gap: 20px;
         }
 
-        .btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            animation: float 3s infinite;
-        }
-
-        .btn-farmer {
-            background-color: var(--accent-blue);
-            color: white;
-        }
-
-        .btn-executive {
-            background-color: var(--primary-green);
-            color: white;
-        }
-
-        .btn:hover {
-            transform: scale(1.05);
+        /* Main Content */
+        main {
+            flex-grow: 1;
+            padding-top: 140px;
+            animation: fadeIn 0.8s ease-out;
+            padding-bottom: 40px;
         }
 
         /* Features Section */
         .features {
-            padding: 4rem 5%;
+            padding: 6rem 5%;
             background-color: white;
+            position: relative;
+        }
+
+        .features::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;charset=utf8,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z" fill="%232ecc71" fill-opacity="0.05" fill-rule="evenodd"/%3E%3C/svg%3E');
+            z-index: 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            position: relative;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--primary-green);
+            border-radius: 3px;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: #777;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            position: relative;
+            z-index: 1;
         }
 
         .feature-card {
             background-color: var(--card-background);
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
             text-align: center;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
             transform: translateY(0);
             opacity: 0;
-            animation: fadeInUp 1s forwards;
-            animation-delay: calc(var(--delay) * 0.1s);
+            z-index: 1;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1) 0%, rgba(46, 204, 113, 0.05) 100%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
         }
 
         .feature-card:hover {
             transform: translateY(-15px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
 
         .feature-card i {
-            font-size: 2.5rem;
-            color: var(--primary-green);
-            margin-bottom: 15px;
-            transition: transform 0.3s ease;
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            transition: transform 0.6s ease;
+            display: inline-block;
         }
 
         .feature-card:hover i {
-            transform: rotate(360deg);
+            transform: rotateY(360deg);
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .feature-card:hover h3 {
+            color: var(--primary-green);
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Enhanced Button Styles */
+        .btn-link {
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-width: 180px;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.4s ease;
+            z-index: -1;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+            transition: 0.7s;
+        }
+        
+        .btn i {
+            transition: transform 0.3s ease;
+        }
+        
+        .btn:hover i {
+            transform: translateX(3px);
+        }
+        
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-farmer {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-blue-dark));
+            color: white;
+            animation: buttonPulse 2s infinite;
+        }
+
+        .btn-farmer:hover {
+            background: linear-gradient(135deg, var(--accent-blue-dark), var(--accent-blue));
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-executive {
+            background: linear-gradient(135deg, var(--primary-green), var(--primary-green-dark));
+            color: white;
+        }
+
+        .btn-executive:hover {
+            background: linear-gradient(135deg, var(--primary-green-dark), var(--primary-green));
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(46, 204, 113, 0.3);
+        }
+
+        /* Hero Controls */
+        .hero-controls {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 5;
+        }
+
+        .hero-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .hero-dot.active {
+            background-color: white;
+            transform: scale(1.2);
         }
 
         /* Footer */
         .footer {
             background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
             color: white;
-            padding: 3rem 5%;
-            text-align: center;
-            animation: fadeInUp 1s;
+            padding: 4rem 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;charset=utf8,%3Csvg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Cpath d="M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10zM10 10c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10zm10 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm40 40c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z" /%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-about {
+            max-width: 400px;
+        }
+
+        .footer-about h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .footer-about p {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
         }
 
         .footer-links {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
             margin-top: 20px;
         }
 
         .footer-links a {
             color: white;
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .footer-links a:hover {
-            color: #f1c40f;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .navbar {
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .footer-social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary-green);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary-green);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .notification.show {
+            opacity: 1;
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 1024px) {
+            header {
+                height: auto;
+                padding: 15px 0;
+            }
+            
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 5px;
+            }
+            
+            .nav-button {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+            
+            .translator-card {
+                top: 270px;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            header {
+                height: auto;
+                padding: 15px 0;
+            }
+            
+            .header-content {
                 flex-direction: column;
-                padding: 1rem;
+                gap: 15px;
+            }
+            
+            nav {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+            
+            .nav-button {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+            }
+            
+            .logo img {
+                width: 140px;
             }
 
-            .nav-links {
-                margin-top: 1rem;
-                flex-direction: column;
-                align-items: center;
+            .weather-card, .translator-card {
+                left: 50%;
+                right: auto;
+                transform: translateX(-50%);
+            }
+            
+            .weather-card {
+                top: 170px;
+            }
+            
+            .translator-card {
+                top: 240px;
+                width: 200px;
             }
 
-            .nav-links li {
-                margin: 10px 0;
+            main {
+                padding-top: 300px;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
             }
 
             .cta-buttons {
                 flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn-link {
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .nav-button {
+                padding: 5px 8px;
+                font-size: 0.75rem;
+            }
+            
+            .logo img {
+                width: 120px;
+                margin-right: 10px;
+            }
+
+            .hero-content {
+                padding: 20px;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .weather-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="logo">
-            <img src="/AgriLift/image__1_-removebg-preview.png">
-        </div>
-        <ul class="nav-links">
-            <li><a href="dashboard.html">Dashboard</a></li>
-            <!-- <li><a href="#features">Features</a></li> -->
-            <li><a href="loan.html">Loans</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
-        <select id="languageSwitcher">
-            <option value="en">English</option>
-            <option value="es">Español</option>
-            <option value="telugu">Telugu</option>
-            <!-- Add more language options here -->
-        </select>
-    </nav>
-    <br><br><br>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
 
-    <!-- Hero Section with Sliding Images -->
+    <!-- Header -->
+    <header id="header">
+        <div class="container header-content">
+            <div class="logo">
+                <img src="AgriLift/image__1_-removebg-preview.png" alt="AgriLift Logo">
+            </div>
+            <nav>
+                <button class="nav-button" onclick="window.location.href='dashboard.html';">
+                    <i class="fas fa-home"></i> <span class="nav-text" data-key="home">Home</span>
+                </button>
+                <button class="nav-button" onclick="window.location.href='loan.html';">
+                    <i class="fas fa-money-bill-wave"></i> <span class="nav-text" data-key="loans">Loans</span>
+                </button>
+                <button class="nav-button" onclick="window.location.href='contact.html';">
+                    <i class="fas fa-envelope"></i> <span class="nav-text" data-key="contact">Contact</span>
+                </button>
+                <button class="nav-button" onclick="window.location.href='seed.html';">
+                    <i class="fas fa-seedling"></i> <span class="nav-text" data-key="seeds">Seeds</span>
+                </button>
+                <button class="nav-button" onclick="window.location.href='worker.html';">
+                    <i class="fas fa-users"></i> <span class="nav-text" data-key="labour">Labour</span>
+                </button>
+                <button class="nav-button" onclick="window.location.href='machinary.html';">
+                    <i class="fas fa-tractor"></i> <span class="nav-text" data-key="machinery">Machinery</span>
+                </button>
+                <button class="nav-button" onclick="window.location.href='export.html';">
+                    <i class="fas fa-shipping-fast"></i> <span class="nav-text" data-key="export">Export</span>
+                </button>
+                <button class="nav-button" onclick="window.location.href='mounitoring.html';">
+                    <i class="fas fa-chart-line"></i> <span class="nav-text" data-key="monitoring">Monitoring</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Weather Card -->
+    <div class="weather-card">
+        <div class="weather-info">
+            <span class="weather-temp">25°C</span>
+            <span class="weather-condition">☀️ <span data-key="sunny">Sunny</span></span>
+            <span class="weather-humidity">💧 45%</span>
+        </div>
+    </div>
+
+    <!-- Translator Card -->
+    <div class="translator-card">
+        <div class="translator-title" data-key="select-language">Select Language</div>
+        <select id="languageSelect" class="translator-select" onchange="changeLanguage()">
+            <option value="en">English</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+            <option value="fr">Français (French)</option>
+            <option value="es">Español (Spanish)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="te">తెలుగు (Telugu)</option>
+        </select>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-slide active" style="background-image: url('AgriLift/welcome1.jpg');">
             <div class="hero-content">
-                <h1>Empowering Farmers, Transforming Agriculture</h1>
-                <p>Comprehensive platform offering end-to-end agricultural solutions, from land testing to market
-                    selling</p>
+                <h1 data-key="hero-title">Empowering Farmers, Transforming Agriculture</h1>
+                <p data-key="hero-description">Comprehensive platform offering end-to-end agricultural solutions, from land testing to market selling</p>
                 <div class="cta-buttons">
-                    <button class="btn btn-farmer">Farmer Login</button>
-                    <button class="btn btn-executive">Executive Portal</button>
+                    <a href="login.html" class="btn-link">
+                        <button class="btn btn-farmer">
+                            <i class="fas fa-user-circle"></i>
+                            <span data-key="farmer-login">Farmer Login</span>
+                        </button>
+                    </a>
+                    <a href="executive.html" class="btn-link">
+                        <button class="btn btn-executive">
+                            <i class="fas fa-briefcase"></i>
+                            <span data-key="executive-portal">Executive Portal</span>
+                        </button>
+                    </a>
                 </div>
             </div>
         </div>
         <div class="hero-slide" style="background-image: url('AgriLift/welcome2.jpg');">
             <div class="hero-content">
-                <h1>Empowering Farmers, Transforming Agriculture</h1>
-                <p>Comprehensive platform offering end-to-end agricultural solutions, from land testing to market
-                    selling</p>
+                <h1 data-key="hero-title">Empowering Farmers, Transforming Agriculture</h1>
+                <p data-key="hero-description">Comprehensive platform offering end-to-end agricultural solutions, from land testing to market selling</p>
                 <div class="cta-buttons">
-                    <button class="btn btn-farmer">Farmer Login</button>
-                    <button class="btn btn-executive">Executive Portal</button>
+                    <a href="login.html" class="btn-link">
+                        <button class="btn btn-farmer">
+                            <i class="fas fa-user-circle"></i>
+                            <span data-key="farmer-login">Farmer Login</span>
+                        </button>
+                    </a>
+                    <a href="executive.html" class="btn-link">
+                        <button class="btn btn-executive">
+                            <i class="fas fa-briefcase"></i>
+                            <span data-key="executive-portal">Executive Portal</span>
+                        </button>
+                    </a>
                 </div>
             </div>
         </div>
         <div class="hero-slide" style="background-image: url('AgriLift/welcome\ 4.jpg');">
             <div class="hero-content">
-                <h1>Empowering Farmers, Transforming Agriculture</h1>
-                <p>Comprehensive platform offering end-to-end agricultural solutions, from land testing to market
-                    selling</p>
+                <h1 data-key="hero-title">Empowering Farmers, Transforming Agriculture</h1>
+                <p data-key="hero-description">Comprehensive platform offering end-to-end agricultural solutions, from land testing to market selling</p>
                 <div class="cta-buttons">
-                    <button class="btn btn-farmer">Farmer Login</button>
-                    <button class="btn btn-executive">Executive Portal</button>
+                    <a href="login.html" class="btn-link">
+                        <button class="btn btn-farmer">
+                            <i class="fas fa-user-circle"></i>
+                            <span data-key="farmer-login">Farmer Login</span>
+                        </button>
+                    </a>
+                    <a href="executive.html" class="btn-link">
+                        <button class="btn btn-executive">
+                            <i class="fas fa-briefcase"></i>
+                            <span data-key="executive-portal">Executive Portal</span>
+                        </button>
+                    </a>
                 </div>
             </div>
         </div>
         <div class="hero-slide" style="background-image: url('AgriLift/welcome3.jpg');">
             <div class="hero-content">
-                <h1>Empowering Farmers, Transforming Agriculture</h1>
-                <p>Comprehensive platform offering end-to-end agricultural solutions, from land testing to market
-                    selling</p>
+                <h1 data-key="hero-title">Empowering Farmers, Transforming Agriculture</h1>
+                <p data-key="hero-description">Comprehensive platform offering end-to-end agricultural solutions, from land testing to market selling</p>
                 <div class="cta-buttons">
-                    <a href="login.html">
-                        <button class="btn btn-farmer">Farmer Login</button>
+                    <a href="login.html" class="btn-link">
+                        <button class="btn btn-farmer">
+                            <i class="fas fa-user-circle"></i>
+                            <span data-key="farmer-login">Farmer Login</span>
+                        </button>
                     </a>
-                    <a href="executive.html">
-                        <button class="btn btn-executive">Executive Portal</button>
+                    <a href="executive.html" class="btn-link">
+                        <button class="btn btn-executive">
+                            <i class="fas fa-briefcase"></i>
+                            <span data-key="executive-portal">Executive Portal</span>
+                        </button>
                     </a>
-
                 </div>
             </div>
+        </div>
+        <!-- Hero Controls -->
+        <div class="hero-controls">
+            <div class="hero-dot active" data-slide="0"></div>
+            <div class="hero-dot" data-slide="1"></div>
+            <div class="hero-dot" data-slide="2"></div>
+            <div class="hero-dot" data-slide="3"></div>
         </div>
     </section>
 
     <!-- Features Section -->
     <section id="features" class="features">
-        <h2 style="text-align: center; margin-bottom: 2rem;">Our Comprehensive Solutions</h2>
+        <div class="section-title">
+            <h2 data-key="solutions-title">Our Comprehensive Solutions</h2>
+            <p data-key="solutions-description">Innovative agricultural technologies designed to increase efficiency and sustainability</p>
+        </div>
         <div class="features-grid">
-            <div class="feature-card" style="--delay: 1;">
+            <div class="feature-card">
                 <i class="fas fa-flask"></i>
-                <h3>Land Testing</h3>
-                <p>Advanced AI-driven soil analysis and crop recommendations</p>
+                <h3 data-key="land-testing">Land Testing</h3>
+                <p data-key="land-testing-desc">Advanced AI-driven soil analysis and crop recommendations</p>
             </div>
-            <div class="feature-card" style="--delay: 2;">
+            <div class="feature-card">
                 <i class="fas fa-money-bill-wave"></i>
-                <h3>Loan Services</h3>
-                <p>Simplified access to government and private agricultural loans</p>
+                <h3 data-key="loan-services">Loan Services</h3>
+                <p data-key="loan-services-desc">Simplified access to government and private agricultural loans</p>
             </div>
-            <div class="feature-card" style="--delay: 3;">
+            <div class="feature-card">
                 <i class="fas fa-seedling"></i>
-                <h3>Seeds & Plants</h3>
-                <p>Quality seeds and lab-grown plants sourced from trusted suppliers</p>
+                <h3 data-key="seeds-plants">Seeds & Plants</h3>
+                <p data-key="seeds-plants-desc">Quality seeds and lab-grown plants sourced from trusted suppliers</p>
             </div>
-            <div class="feature-card" style="--delay: 4;">
+            <div class="feature-card">
                 <i class="fas fa-tractor"></i>
-                <h3>Machinery Options</h3>
-                <p>Flexible ploughing and harvesting machinery rental</p>
+                <h3 data-key="machinery-options">Machinery Options</h3>
+                <p data-key="machinery-options-desc">Flexible ploughing and harvesting machinery rental</p>
             </div>
-            <div class="feature-card" style="--delay: 5;">
+            <div class="feature-card">
                 <i class="fas fa-users"></i>
-                <h3>Labor Management</h3>
-                <p>Connect with skilled planting workers and farm managers</p>
+                <h3 data-key="labor-management">Labor Management</h3>
+                <p data-key="labor-management-desc">Connect with skilled planting workers and farm managers</p>
             </div>
-            <div class="feature-card" style="--delay: 6;">
+            <div class="feature-card">
                 <i class="fas fa-cloud-sun"></i>
-                <h3>Weather Forecasts</h3>
-                <p>Localized, real-time weather updates for precise planning</p>
+                <h3 data-key="weather-forecasts">Weather Forecasts</h3>
+                <p data-key="weather-forecasts-desc">Localized, real-time weather updates for precise planning</p>
             </div>
-            <div class="feature-card" style="--delay: 7;">
+            <div class="feature-card">
                 <i class="fas fa-egg"></i>
-                <h3>Diverse Farming</h3>
-                <p>Support for poultry, dairy, and fishing farm operations</p>
+                <h3 data-key="diverse-farming">Diverse Farming</h3>
+                <p data-key="diverse-farming-desc">Support for poultry, dairy, and fishing farm operations</p>
             </div>
-            <div class="feature-card" style="--delay: 8;">
+            <div class="feature-card">
                 <i class="fas fa-store"></i>
-                <h3>Market Connections</h3>
-                <p>Direct crop selling platform to maximize farmer profits</p>
+                <h3 data-key="market-connections">Market Connections</h3>
+                <p data-key="market-connections-desc">Direct crop selling platform to maximize farmer profits</p>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <h3>AgriLand - Your Agricultural Partner</h3>
-        <p>Innovating agriculture through technology and sustainable solutions</p>
+        <div class="footer-content">
+            <div class="footer-about">
+                <h3 data-key="footer-title">AgriLift - Your Agricultural Partner</h3>
+                <p data-key="footer-description">Innovating agriculture through technology and sustainable solutions</p>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
         <div class="footer-links">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Support</a>
+            <a href="#" data-key="privacy-policy">Privacy Policy</a>
+            <a href="#" data-key="terms-of-service">Terms of Service</a>
+            <a href="#" data-key="support">Support</a>
+        </div>
+        <div class="footer-bottom">
+            <p data-key="copyright">&copy; 2023 AgriLift. All Rights Reserved.</p>
         </div>
     </footer>
-    <!-- Include i18next and plugins -->
-    <script src="https://unpkg.com/i18next@21.6.14/i18next.min.js"></script>
-    <script
-        src="https://unpkg.com/i18next-browser-languagedetector@6.1.4/i18nextBrowserLanguageDetector.min.js"></script>
-    <script src="https://unpkg.com/jquery@3.6.0/dist/jquery.min.js"></script>
-    <script src="https://unpkg.com/jquery-i18next@1.2.1/jquery-i18next.min.js"></script>
 
     <script>
-        i18next
-            .use(i18nextBrowserLanguageDetector)
-            .init({
-                debug: true,
-                fallbackLng: 'en',
-                // Optionally, you can load translations from your own server using backend plugins.
-                // For this demo, we define them inline.
-                resources: {
-                    en: {
-                        translation: {
-                            "title": "AgriLand - Comprehensive Agricultural Solutions",
-                            "nav": {
-                                "home": "Home",
-                                "features": "Features",
-                                "loans": "Loans",
-                                "services": "Services",
-                                "contact": "Contact"
-                            },
-                            "hero": {
-                                "heading": "Empowering Farmers, Transforming Agriculture",
-                                "subheading": "Comprehensive platform offering end-to-end agricultural solutions, from land testing to market selling",
-                                "farmerLogin": "Farmer Login",
-                                "executivePortal": "Executive Portal"
-                            },
-                            "features": {
-                                "title": "Our Comprehensive Solutions",
-                                "landTesting": {
-                                    "title": "Land Testing",
-                                    "description": "Advanced AI-driven soil analysis and crop recommendations"
-                                },
-                                "loanServices": {
-                                    "title": "Loan Services",
-                                    "description": "Simplified access to government and private agricultural loans"
-                                }
-                                // Add other features here...
-                            },
-                            "footer": {
-                                "heading": "AgriLand - Your Agricultural Partner",
-                                "subheading": "Innovating agriculture through technology and sustainable solutions",
-                                "privacyPolicy": "Privacy Policy",
-                                "termsOfService": "Terms of Service",
-                                "support": "Support"
-                            }
-                        }
-                    },
-                    es: {
-                        translation: {
-                            "title": "AgriLand - Soluciones Agrícolas Integrales",
-                            "nav": {
-                                "home": "Inicio",
-                                "features": "Características",
-                                "loans": "Préstamos",
-                                "services": "Servicios",
-                                "contact": "Contacto"
-                            },
-                            "hero": {
-                                "heading": "Empoderando a los Agricultores, Transformando la Agricultura",
-                                "subheading": "Plataforma integral que ofrece soluciones agrícolas completas, desde el análisis de la tierra hasta la venta en el mercado",
-                                "farmerLogin": "Acceso Agricultor",
-                                "executivePortal": "Portal Ejecutivo"
-                            },
-                            "features": {
-                                "title": "Nuestras Soluciones Integrales",
-                                "landTesting": {
-                                    "title": "Análisis de Suelo",
-                                    "description": "Análisis de suelo avanzado con IA y recomendaciones de cultivos"
-                                },
-                                "loanServices": {
-                                    "title": "Servicios de Préstamos",
-                                    "description": "Acceso simplificado a préstamos agrícolas gubernamentales y privados"
-                                }
-                                // Add other feature translations here...
-                            },
-                            "footer": {
-                                "heading": "AgriLand - Su Socio Agrícola",
-                                "subheading": "Innovando la agricultura a través de tecnología y soluciones sostenibles",
-                                "privacyPolicy": "Política de Privacidad",
-                                "termsOfService": "Términos del Servicio",
-                                "support": "Soporte"
-                            }
-                        }
-                    }
-                    // You can add more languages here.
-                },
-                te: {
-                    translation: {
-                        "title": "AgriLand - సంపూర్ణ వ్యవసాయ పరిష్కారాలు",
-                        "nav": {
-                            "home": "హోమ్",
-                            "features": "లక్షణాలు",
-                            "loans": "ఋణాలు",
-                            "services": "సేవలు",
-                            "contact": "సంప్రదించండి"
-                        },
-                        "hero": {
-                            "heading": "రైతులను శక్తివంతం చేస్తూ, వ్యవసాయాన్ని మార్చడం",
-                            "subheading": "భూమి పరీక్ష నుండి మార్కెట్ అమ్మకాల వరకు, అన్ని వ్యవసాయ పరిష్కారాలను అందించే సమగ్ర వేదిక",
-                            "farmerLogin": "రైతు లాగిన్",
-                            "executivePortal": "ఎగ్జిక్యూటివ్ పోర్టల్"
-                        },
-                        "features": {
-                            "title": "మా సమగ్ర పరిష్కారాలు",
-                            "landTesting": {
-                                "title": "భూమి పరీక్ష",
-                                "description": "ఉన్నత AI ఆధారిత నేల విశ్లేషణ మరియు పంట సిఫార్సులు"
-                            },
-                            "loanServices": {
-                                "title": "ఋణ సేవలు",
-                                "description": "రాష్ట్ర మరియు ప్రైవేట్ వ్యవసాయ రుణాలకు సులభమైన ప్రాప్యత"
-                            }
-                            // Add other feature translations here...
-                        },
-                        "footer": {
-                            "heading": "AgriLand - మీ వ్యవసాయ భాగస్వామి",
-                            "subheading": "సాంకేతికత మరియు సుస్థిర పరిష్కారాల ద్వారా వ్యవసాయంలో నూతనత",
-                            "privacyPolicy": "గోప్యతా విధానం",
-                            "termsOfService": "సేవా నిబంధనలు",
-                            "support": "మద్దతు"
-                        }
-                    }
-                }
-            }, function (err, t) {
-                // Initialize jquery-i18next after i18next is initialized
-                jqueryI18next.init(i18next, $, { useOptionsAttr: true });
-                // Translate the entire body
-                $('body').localize();
-            });
+        // Translations
+        const translations = {
+            en: {
+                "home": "Home",
+                "loans": "Loans",
+                "contact": "Contact",
+                "seeds": "Seeds",
+                "labour": "Labour",
+                "machinery": "Machinery",
+                "export": "Export",
+                "monitoring": "Monitoring",
+                "select-language": "Select Language",
+                "sunny": "Sunny",
+                "rainy": "Rainy",
+                "cloudy": "Cloudy",
+                "partly-cloudy": "Partly Cloudy",
+                "hero-title": "Empowering Farmers, Transforming Agriculture",
+                "hero-description": "Comprehensive platform offering end-to-end agricultural solutions, from land testing to market selling",
+                "farmer-login": "Farmer Login",
+                "executive-portal": "Executive Portal",
+                "solutions-title": "Our Comprehensive Solutions",
+                "solutions-description": "Innovative agricultural technologies designed to increase efficiency and sustainability",
+                "land-testing": "Land Testing",
+                "land-testing-desc": "Advanced AI-driven soil analysis and crop recommendations",
+                "loan-services": "Loan Services",
+                "loan-services-desc": "Simplified access to government and private agricultural loans",
+                "seeds-plants": "Seeds & Plants",
+                "seeds-plants-desc": "Quality seeds and lab-grown plants sourced from trusted suppliers",
+                "machinery-options": "Machinery Options",
+                "machinery-options-desc": "Flexible ploughing and harvesting machinery rental",
+                "labor-management": "Labor Management",
+                "labor-management-desc": "Connect with skilled planting workers and farm managers",
+                "weather-forecasts": "Weather Forecasts",
+                "weather-forecasts-desc": "Localized, real-time weather updates for precise planning",
+                "diverse-farming": "Diverse Farming",
+                "diverse-farming-desc": "Support for poultry, dairy, and fishing farm operations",
+                "market-connections": "Market Connections",
+                "market-connections-desc": "Direct crop selling platform to maximize farmer profits",
+                "footer-title": "AgriLift - Your Agricultural Partner",
+                "footer-description": "Innovating agriculture through technology and sustainable solutions",
+                "privacy-policy": "Privacy Policy",
+                "terms-of-service": "Terms of Service",
+                "support": "Support",
+                "copyright": "© 2023 AgriLift. All Rights Reserved.",
+                "language-changed": "Language changed to English"
+            },
+            hi: {
+                "home": "होम",
+                "loans": "ऋण",
+                "contact": "संपर्क",
+                "seeds": "बीज",
+                "labour": "श्रमिक",
+                "machinery": "मशीनरी",
+                "export": "निर्यात",
+                "monitoring": "निगरानी",
+                "select-language": "भाषा चुनें",
+                "sunny": "धूप",
+                "rainy": "बारिश",
+                "cloudy": "बादल",
+                "partly-cloudy": "आंशिक बादल",
+                "hero-title": "किसानों को सशक्त बनाना, कृषि को बदलना",
+                "hero-description": "भूमि परीक्षण से लेकर बाजार बिक्री तक, कृषि समाधानों की व्यापक प्लेटफॉर्म",
+                "farmer-login": "किसान लॉगिन",
+                "executive-portal": "कार्यकारी पोर्टल",
+                "solutions-title": "हमारे व्यापक समाधान",
+                "solutions-description": "दक्षता और स्थिरता बढ़ाने के लिए अभिनव कृषि प्रौद्योगिकियां",
+                "land-testing": "भूमि परीक्षण",
+                "land-testing-desc": "उन्नत AI-संचालित मिट्टी विश्लेषण और फसल सिफारिशें",
+                "loan-services": "ऋण सेवाएं",
+                "loan-services-desc": "सरकारी और निजी कृषि ऋणों तक सरलीकृत पहुंच",
+                "seeds-plants": "बीज और पौधे",
+                "seeds-plants-desc": "विश्वसनीय आपूर्तिकर्ताओं से गुणवत्ता वाले बीज और प्रयोगशाला में उगाए गए पौधे",
+                "machinery-options": "मशीनरी विकल्प",
+                "machinery-options-desc": "लचीला जुताई और कटाई मशीनरी किराया",
+                "labor-management": "श्रम प्रबंधन",
+                "labor-management-desc": "कुशल रोपण कर्मचारियों और फार्म प्रबंधकों से जुड़ें",
+                "weather-forecasts": "मौसम पूर्वानुमान",
+                "weather-forecasts-desc": "सटीक योजना के लिए स्थानीयकृत, वास्तविक समय के मौसम अपडेट",
+                "diverse-farming": "विविध खेती",
+                "diverse-farming-desc": "पोल्ट्री, डेयरी और मछली पालन संचालन के लिए समर्थन",
+                "market-connections": "बाजार कनेक्शन",
+                "market-connections-desc": "किसान लाभ को अधिकतम करने के लिए प्रत्यक्ष फसल बिक्री प्लेटफॉर्म",
+                "footer-title": "एग्रीलिफ्ट - आपका कृषि भागीदार",
+                "footer-description": "प्रौद्योगिकी और टिकाऊ समाधानों के माध्यम से कृषि में नवाचार",
+                "privacy-policy": "गोपनीयता नीति",
+                "terms-of-service": "सेवा की शर्तें",
+                "support": "सहायता",
+                "copyright": "© 2023 एग्रीलिफ्ट. सर्वाधिकार सुरक्षित।",
+                "language-changed": "भाषा हिंदी में बदली गई"
+            },
+            fr: {
+                "home": "Accueil",
+                "loans": "Prêts",
+                "contact": "Contact",
+                "seeds": "Semences",
+                "labour": "Main-d'oeuvre",
+                "machinery": "Machines",
+                "export": "Exportation",
+                "monitoring": "Surveillance",
+                "select-language": "Choisir la Langue",
+                "sunny": "Ensoleillé",
+                "rainy": "Pluvieux",
+                "cloudy": "Nuageux",
+                "partly-cloudy": "Partiellement Nuageux",
+                "hero-title": "Autonomiser les Agriculteurs, Transformer l'Agriculture",
+                "hero-description": "Plateforme complète offrant des solutions agricoles de bout en bout, des tests de sol à la vente sur le marché",
+                "farmer-login": "Connexion Agriculteur",
+                "executive-portal": "Portail Exécutif",
+                "solutions-title": "Nos Solutions Complètes",
+                "solutions-description": "Technologies agricoles innovantes conçues pour augmenter l'efficacité et la durabilité",
+                "land-testing": "Test de Sol",
+                "land-testing-desc": "Analyse de sol et recommandations de cultures basées sur l'IA avancée",
+                "loan-services": "Services de Prêt",
+                "loan-services-desc": "Accès simplifié aux prêts agricoles gouvernementaux et privés",
+                "seeds-plants": "Semences & Plantes",
+                "seeds-plants-desc": "Semences de qualité et plantes cultivées en laboratoire provenant de fournisseurs de confiance",
+                "machinery-options": "Options de Machines",
+                "machinery-options-desc": "Location flexible de machines de labour et de récolte",
+                "labor-management": "Gestion de la Main-d'œuvre",
+                "labor-management-desc": "Connectez-vous avec des ouvriers agricoles qualifiés et des gestionnaires de ferme",
+                "weather-forecasts": "Prévisions Météo",
+                "weather-forecasts-desc": "Mises à jour météorologiques localisées en temps réel pour une planification précise",
+                "diverse-farming": "Agriculture Diverse",
+                "diverse-farming-desc": "Soutien aux opérations avicoles, laitières et piscicoles",
+                "market-connections": "Connexions Marchées",
+                "market-connections-desc": "Plateforme de vente directe de cultures pour maximiser les profits des agriculteurs",
+                "footer-title": "AgriLift - Votre Partenaire Agricole",
+                "footer-description": "Innover l'agriculture grâce à la technologie et des solutions durables",
+                "privacy-policy": "Politique de Confidentialité",
+                "terms-of-service": "Conditions d'Utilisation",
+                "support": "Support",
+                "copyright": "© 2023 AgriLift. Tous droits réservés.",
+                "language-changed": "Langue changée en Français"
+            },
+            es: {
+                "home": "Inicio",
+                "loans": "Préstamos",
+                "contact": "Contacto",
+                "seeds": "Semillas",
+                "labour": "Trabajo",
+                "machinery": "Maquinaria",
+                "export": "Exportación",
+                "monitoring": "Monitoreo",
+                "select-language": "Seleccionar Idioma",
+                "sunny": "Soleado",
+                "rainy": "Lluvioso",
+                "cloudy": "Nublado",
+                "partly-cloudy": "Parcialmente Nublado",
+                "hero-title": "Empoderando a los Agricultores, Transformando la Agricultura",
+                "hero-description": "Plataforma integral que ofrece soluciones agrícolas de principio a fin, desde pruebas de suelo hasta la venta en el mercado",
+                "farmer-login": "Inicio de Sesión de Agricultor",
+                "executive-portal": "Portal Ejecutivo",
+                "solutions-title": "Nuestras Soluciones Integrales",
+                "solutions-description": "Tecnologías agrícolas innovadoras diseñadas para aumentar la eficiencia y sostenibilidad",
+                "land-testing": "Pruebas de Suelo",
+                "land-testing-desc": "Análisis de suelo avanzado impulsado por IA y recomendaciones de cultivos",
+                "loan-services": "Servicios de Préstamo",
+                "loan-services-desc": "Acceso simplificado a préstamos agrícolas gubernamentales y privados",
+                "seeds-plants": "Semillas y Plantas",
+                "seeds-plants-desc": "Semillas de calidad y plantas cultivadas en laboratorio de proveedores confiables",
+                "machinery-options": "Opciones de Maquinaria",
+                "machinery-options-desc": "Alquiler flexible de maquinaria de arado y cosecha",
+                "labor-management": "Gestión Laboral",
+                "labor-management-desc": "Conéctese con trabajadores de siembra calificados y administradores de granjas",
+                "weather-forecasts": "Pronósticos del Tiempo",
+                "weather-forecasts-desc": "Actualizaciones meteorológicas localizadas en tiempo real para una planificación precisa",
+                "diverse-farming": "Agricultura Diversa",
+                "diverse-farming-desc": "Soporte para operaciones avícolas, lecheras y pesqueras",
+                "market-connections": "Conexiones de Mercado",
+                "market-connections-desc": "Plataforma de venta directa de cultivos para maximizar las ganancias de los agricultores",
+                "footer-title": "AgriLift - Su Socio Agrícola",
+                "footer-description": "Innovando la agricultura a través de la tecnología y soluciones sostenibles",
+                "privacy-policy": "Política de Privacidad",
+                "terms-of-service": "Términos de Servicio",
+                "support": "Soporte",
+                "copyright": "© 2023 AgriLift. Todos los derechos reservados.",
+                "language-changed": "Idioma cambiado a Español"
+            },
+            ta: {
+                "home": "முகப்பு",
+                "loans": "கடன்கள்",
+                "contact": "தொடர்பு",
+                "seeds": "விதைகள்",
+                "labour": "தொழிலாளர்",
+                "machinery": "இயந்திரங்கள்",
+                "export": "ஏற்றுமதி",
+                "monitoring": "கண்காணிப்பு",
+                "select-language": "மொழியைத் தேர்ந்தெடுக்கவும்",
+                "sunny": "வெயில்",
+                "rainy": "மழை",
+                "cloudy": "மேகமூட்டம்",
+                "partly-cloudy": "ஓரளவு மேகமூட்டம்",
+                "hero-title": "விவசாயிகளுக்கு அதிகாரம் அளித்தல், வேளாண்மையை மாற்றுதல்",
+                "hero-description": "நிலப் பரிசோதனை முதல் சந்தை விற்பனை வரை, முழுமையான வேளாண் தீர்வுகளை வழங்கும் தளம்",
+                "farmer-login": "விவசாயி உள்நுழைவு",
+                "executive-portal": "நிர்வாக போர்டல்",
+                "solutions-title": "எங்களின் விரிவான தீர்வுகள்",
+                "solutions-description": "திறன் மற்றும் நிலைத்தன்மையை அதிகரிக்க வடிவமைக்கப்பட்ட புதுமையான வேளாண் தொழில்நுட்பங்கள்",
+                "land-testing": "நில சோதனை",
+                "land-testing-desc": "மேம்பட்ட AI-இயக்கப்படும் மண் பகுப்பாய்வு மற்றும் பயிர் பரிந்துரைகள்",
+                "loan-services": "கடன் சேவைகள்",
+                "loan-services-desc": "அரசு மற்றும் தனியார் வேளாண் கடன்களுக்கான எளிமைப்படுத்தப்பட்ட அணுகல்",
+                "seeds-plants": "விதைகள் & செடிகள்",
+                "seeds-plants-desc": "நம்பகமான விநியோகஸ்தர்களிடமிருந்து தரமான விதைகள் மற்றும் ஆய்வகத்தில் வளர்க்கப்பட்ட செடிகள்",
+                "machinery-options": "இயந்திர விருப்பங்கள்",
+                "machinery-options-desc": "நெகிழ்வான உழவு மற்றும் அறுவடை இயந்திர வாடகை",
+                "labor-management": "தொழிலாளர் மேலாண்மை",
+                "labor-management-desc": "திறமையான நடவு தொழிலாளர்கள் மற்றும் பண்ணை மேலாளர்களுடன் இணைக்கவும்",
+                "weather-forecasts": "வானிலை முன்னறிவிப்புகள்",
+                "weather-forecasts-desc": "துல்லியமான திட்டமிடலுக்கான உள்ளூர்மயமாக்கப்பட்ட, நிகழ்நேர வானிலை புதுப்பிப்புகள்",
+                "diverse-farming": "பல்வேறு விவசாயம்",
+                "diverse-farming-desc": "கோழி, பால் மற்றும் மீன் பண்ணை செயல்பாடுகளுக்கான ஆதரவு",
+                "market-connections": "சந்தை இணைப்புகள்",
+                "market-connections-desc": "விவசாயிகளின் லாபத்தை அதிகரிக்க நேரடி பயிர் விற்பனை தளம்",
+                "footer-title": "AgriLift - உங்கள் வேளாண் பங்காளர்",
+                "footer-description": "தொழில்நுட்பம் மற்றும் நிலையான தீர்வுகள் மூலம் வேளாண்மையில் புதுமை",
+                "privacy-policy": "தனியுரிமைக் கொள்கை",
+                "terms-of-service": "சேவை விதிமுறைகள்",
+                "support": "ஆதரவு",
+                "copyright": "© 2023 AgriLift. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.",
+                "language-changed": "மொழி தமிழுக்கு மாற்றப்பட்டது"
+            },
+            te: {
+                "home": "హోమ్",
+                "loans": "రుణాలు",
+                "contact": "సంప్రదించండి",
+                "seeds": "విత్తనాలు",
+                "labour": "కార్మికులు",
+                "machinery": "యంత్రాలు",
+                "export": "ఎగుమతి",
+                "monitoring": "పర్యవేక్షణ",
+                "select-language": "భాష ఎంచుకోండి",
+                "sunny": "ఎండగా ఉంది",
+                "rainy": "వర్షం",
+                "cloudy": "మేఘావృతం",
+                "partly-cloudy": "పాక్షికంగా మేఘావృతం",
+                "hero-title": "రైతులకు అధికారం ఇవ్వడం, వ్యవసాయాన్ని మార్చడం",
+                "hero-description": "భూమి పరీక్ష నుండి మార్కెట్ విక్రయాల వరకు, ముగింపు నుండి ముగింపు వరకు వ్యవసాయ పరిష్కారాలను అందించే సమగ్ర వేదిక",
+                "farmer-login": "రైతు లాగిన్",
+                "executive-portal": "ఎగ్జిక్యూటివ్ పోర్టల్",
+                "solutions-title": "మా సమగ్ర పరిష్కారాలు",
+                "solutions-description": "సామర్థ్యాన్ని మరియు స్థిరత్వాన్ని పెంచడానికి రూపొందించబడిన వినూత్న వ్యవసాయ సాంకేతికతలు",
+                "land-testing": "భూమి పరీక్ష",
+                "land-testing-desc": "అధునాతన AI-ఆధారిత నేల విశ్లేషణ మరియు పంట సిఫార్సులు",
+                "loan-services": "రుణ సేవలు",
+                "loan-services-desc": "ప్రభుత్వ మరియు ప్రైవేట్ వ్యవసాయ రుణాలకు సరళీకృత ప్రాప్యత",
+                "seeds-plants": "విత్తనాలు & మొక్కలు",
+                "seeds-plants-desc": "నమ్మకమైన సరఫరాదారుల నుండి నాణ్యమైన విత్తనాలు మరియు ల్యాబ్-లో పెరిగిన మొక్కలు",
+                "machinery-options": "యంత్ర ఎంపికలు",
+                "machinery-options-desc": "సౌకర్యవంతమైన దున్నడం మరియు పంట కోత యంత్రాల అద్దె",
+                "labor-management": "కార్మిక నిర్వహణ",
+                "labor-management-desc": "నైపుణ్యం కలిగిన నాటు కార్మికులు మరియు పంట నిర్వాహకులతో కనెక్ట్ చేయండి",
+                "weather-forecasts": "వాతావరణ సూచనలు",
+                "weather-forecasts-desc": "ఖచ్చితమైన ప్రణాళిక కోసం స్థానికీకరించబడిన, రియల్-టైమ్ వాతావరణ నవీకరణలు",
+                "diverse-farming": "వైవిధ్యమైన వ్యవసాయం",
+                "diverse-farming-desc": "పౌల్ట్రీ, డైరీ మరియు మత్స్య పంట కార్యకలాపాలకు మద్దతు",
+                "market-connections": "మార్కెట్ కనెక్షన్లు",
+                "market-connections-desc": "రైతుల లాభాలను గరిష్టీకరించడానికి నేరుగా పంట అమ్మకాల వేదిక",
+                "footer-title": "AgriLift - మీ వ్యవసాయ భాగస్వామి",
+                "footer-description": "సాంకేతికత మరియు స్థిరమైన పరిష్కారాల ద్వారా వ్యవసాయంలో నవకల్పన",
+                "privacy-policy": "గోప్యతా విధానం",
+                "terms-of-service": "సేవా నిబంధనలు",
+                "support": "మద్దతు",
+                "copyright": "© 2023 AgriLift. అన్ని హక్కులు రిజర్వ్ చేయబడ్డాయి.",
+                "language-changed": "భాష తెలుగుకు మార్చబడింది"
+            }
+        };
 
-        // Language switcher event
-        $('#languageSwitcher').on('change', function () {
-            const newLang = $(this).val();
-            i18next.changeLanguage(newLang, function (err, t) {
-                $('body').localize();
+        // Function to update all translated elements
+        function updateTranslations(lang) {
+            const elements = document.querySelectorAll('[data-key]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+        }
+
+        // Function to show notification
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Function to change language
+        function changeLanguage() {
+            const selectedLang = document.getElementById('languageSelect').value;
+            updateTranslations(selectedLang);
+            
+            // Show language change notification
+            if (translations[selectedLang] && translations[selectedLang]["language-changed"]) {
+                showNotification(translations[selectedLang]["language-changed"]);
+            }
+        }
+
+        // Handle loading overlay
+        window.addEventListener('load', function() {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            setTimeout(function() {
+                loadingOverlay.style.opacity = '0';
+                setTimeout(function() {
+                    loadingOverlay.style.visibility = 'hidden';
+                }, 500);
+            }, 1500); // Slightly longer to ensure content loads
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Add animation to nav buttons
+        document.querySelectorAll('.nav-button').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.querySelector('i')?.classList.add('fa-bounce');
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.querySelector('i')?.classList.remove('fa-bounce');
             });
         });
 
-        // Sliding Hero Images
-        const heroSlides = document.querySelectorAll('.hero-slide');
-        let currentSlide = 0;
-
-        function changeSlide() {
-            // Remove active class from current slide
-            heroSlides[currentSlide].classList.remove('active');
-
-            // Move to next slide
-            currentSlide = (currentSlide + 1) % heroSlides.length;
-
-            // Add active class to next slide
-            heroSlides[currentSlide].classList.add('active');
+        // Feature card animation on scroll
+        function animateFeatureCards() {
+            const featureCards = document.querySelectorAll('.feature-card');
+            featureCards.forEach((card, index) => {
+                const cardTop = card.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (cardTop < windowHeight * 0.85) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                    card.style.transitionDelay = `${index * 0.1}s`;
+                }
+            });
         }
 
-        // Change slide every 5 seconds
-        setInterval(changeSlide, 5000);
+        // Hero Sliding Images
+        const heroSlides = document.querySelectorAll('.hero-slide');
+        const heroDots = document.querySelectorAll('.hero-dot');
+        let currentSlide = 0;
+        let slideInterval;
 
-        // Stagger Feature Card Animations
-        const featureCards = document.querySelectorAll('.feature-card');
-        featureCards.forEach((card, index) => {
-            card.style.setProperty('--delay', index + 1);
+        function startSlideInterval() {
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+
+        function nextSlide() {
+            goToSlide((currentSlide + 1) % heroSlides.length);
+        }
+
+        function goToSlide(slideIndex) {
+            // Remove active classes
+            heroSlides[currentSlide].classList.remove('active');
+            heroDots[currentSlide].classList.remove('active');
+            
+            // Update current slide
+            currentSlide = slideIndex;
+            
+            // Add active classes to new slide
+            heroSlides[currentSlide].classList.add('active');
+            heroDots[currentSlide].classList.add('active');
+        }
+
+        // Add click events to dots
+        heroDots.forEach((dot, index) => {
+            dot.addEventListener('click', function() {
+                clearInterval(slideInterval);
+                goToSlide(index);
+                startSlideInterval();
+            });
+        });
+
+        // Simulate real-time weather updates
+        function updateWeather() {
+            const temp = Math.floor(Math.random() * 15 + 20); // 20-35°C
+            const conditionKeys = ['sunny', 'rainy', 'cloudy', 'partly-cloudy'];
+            const conditionIcons = ['☀️', '🌧️', '⛅', '🌤️'];
+            const conditionIndex = Math.floor(Math.random() * conditionKeys.length);
+            const conditionKey = conditionKeys[conditionIndex];
+            const conditionIcon = conditionIcons[conditionIndex];
+            const humidity = Math.floor(Math.random() * 30 + 40); // 40-70%
+
+            document.querySelector('.weather-temp').textContent = `${temp}°C`;
+            
+            // Get the current language
+            const currentLang = document.getElementById('languageSelect').value;
+            const conditionText = translations[currentLang][conditionKey] || conditionKey;
+            
+            document.querySelector('.weather-condition').innerHTML = `${conditionIcon} <span data-key="${conditionKey}">${conditionText}</span>`;
+            document.querySelector('.weather-humidity').textContent = `💧 ${humidity}%`;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set initial language to English
+            updateTranslations('en');
+            
+            animateFeatureCards();
+            startSlideInterval();
+            updateWeather();
+            
+            // Scroll event listener for animations
+            window.addEventListener('scroll', function() {
+                animateFeatureCards();
+            });
+            
+            // Update weather every 5 seconds
+            setInterval(updateWeather, 5000);
         });
     </script>
 </body>
-
 </html>
