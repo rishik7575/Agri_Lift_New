@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriLift - Farmer Home</title>
+    <link rel="stylesheet" href="css/home.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".nav-links a").hover(
+                function () { $(this).css("color", "#ffeb3b"); },
+                function () { $(this).css("color", "white"); }
+            );
+
+            $(".get-started").click(function () {
+                alert("More details coming soon!");
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="AgriLift/image__1_-removebg-preview.png" alt="AgriLift Logo" style="height: 100px;">
+
+        </div>
+        <ul class="nav-links">
+            <li><a href="welcome.html">Home</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="loan.html">Loan</a></li>
+            <li><a href="seed.html">Seeds</a></li>
+            <li><a href="worker.html">Labour Management</a></li>
+            <li><a href="machinery.html">Machinery</a></li>
+            <li><a href="export.html">Export</a></li>
+            <li><a href="mounitoring.html">Farm Monitoring</a></li>
+        </ul>
+    </nav>
+
+    <!-- Farming Options Section -->
+    <section class="farming-options">
+        <h2>Select Your Farming Type</h2>
+        <div class="options-container">
+            <div class="option-card">
+                <img src="AgriLift/types of farming/Organic Farming.jpg" alt="Organic Farming">
+                <h3>Organic Farming</h3>
+                <p>Sustainable and eco-friendly farming methods.</p>
+                <button class="get-started">Get Started</button>
+            </div>
+            <div class="option-card">
+                <img src="AgriLift/types of farming/marine.jpg" alt="Marine Farming">
+                <h3>Marine Farming</h3>
+                <p>Aquaculture and seafood production techniques.</p>
+                <button class="get-started">Get Started</button>
+            </div>
+            <div class="option-card">
+                <img src="AgriLift/types of farming/Poultry.jpg" alt="Poultry Farming">
+                <h3>Poultry Farming</h3>
+                <p>Raising chickens, ducks, and other poultry.</p>
+                <button class="get-started">Get Started</button>
+            </div>
+            <div class="option-card">
+                <img src="AgriLift/types of farming/Dairy.jpg" alt="Dairy Farming">
+                <h3>Dairy Farming</h3>
+                <p>Milk and dairy production from cows, goats, and more.</p>
+                <button class="get-started">Get Started</button>
+            </div>
+            <div class="option-card">
+                <img src="AgriLift/types of farming/Bee Farming.jpg" alt="Beekeeping">
+                <h3>Beekeeping</h3>
+                <p>Honey and beeswax production through beekeeping.</p>
+                <button class="get-started">Get Started</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 AgriLift. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
